@@ -1,6 +1,7 @@
 import { useAuthContext } from '../../authProvider'
 import useUserInitials from '../../hooks/useInitials.hook';
 import styles from './header.module.css'
+import ProfileDialog from './profileDialogComponent';
 
 export default function Header() {
     const AuthContext = useAuthContext();
@@ -17,6 +18,7 @@ export default function Header() {
                         {initials}
                     </div>
                 </div>
+                <ProfileDialog />
             </header>
         </>
     )

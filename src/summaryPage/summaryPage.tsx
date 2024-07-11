@@ -4,6 +4,7 @@ import '../index.css';
 import { useAuthContext } from '../shared/authProvider';
 import Header from '../shared/components/header/header';
 import Sidenav from '../shared/components/sidenav/sidenav';
+import PageLayout from '../shared/components/pageLayout';
 
 
 function SummaryPage() {
@@ -15,21 +16,10 @@ function SummaryPage() {
         await logoutUser();
         navigate('/login');
     }
-    
+
     return (
         <>
-            <div className='main-page'>
-                <Sidenav />
-                <div className='content-complete'>
-                    <Header />
-                    <div className='main-content'>
-                        {loading ? <h1>It is loading cunt</h1> : ''}
-                        <h1>Summary</h1>
-                        <h1>{user === null ? <span>fuck you</span> : <span>{user.displayName}</span>}</h1>
-                        <button onClick={logout} className='submitBtn'>Logout</button>
-                    </div>
-                </div>
-            </div>
+            <PageLayout loading={loading} />
         </>
 
     );

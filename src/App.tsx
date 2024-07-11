@@ -8,6 +8,8 @@ import RegisterPage from './registerPage/registerPage';
 import ErrorPage from './errorPage/errorPage';
 import AuthProvider from './shared/authProvider';
 import FirestoreProvider from './shared/firestoreProvider';
+import LegalNotice from './legalNoticePage/legalNoticePage';
+import PrivacyPolicy from './privacyPolicyPage/privacyPolicyPage';
 
 
 function App() {
@@ -18,7 +20,9 @@ function App() {
     { path: 'add-task', element: <AddTaskPage /> },
     { path: 'contacts', element: <ContactsPage /> },
     { path: 'login', element: <LoginPage /> },
-    { path: 'register', element: <RegisterPage /> }
+    { path: 'register', element: <RegisterPage /> },
+    { path: 'legal-notice', element: <LegalNotice /> },
+    { path: 'privacy-policy', element: <PrivacyPolicy /> }
   ]);
   
   return (
