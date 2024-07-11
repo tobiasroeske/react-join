@@ -1,0 +1,108 @@
+.main {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding-bottom: 12px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 80px 77px 0;
+}
+
+.signupContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    padding: 48px 88px;
+    gap: 32px;
+    border-radius: 30px;
+    box-shadow: 0px 0px 14px 3px #0000000A;
+}
+
+
+
+.headline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.headline >h1 {
+    font-size: 61px;
+}
+
+.seperator {
+    height: 3px;
+    background-color: #29ABE2;
+    width: 80%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.privacyLink {
+    color: #29ABE2;
+}
+
+.privacyLink:hover {
+    text-decoration: underline;
+}
+
+.actionContainer {
+    align-self: center;
+}
+
+.successBox {
+    position: absolute;
+    text-align: center;
+    box-shadow: 0px 0px 4px 0px #0000001A;
+    border-radius: 20px;
+    padding: 15px 25px;
+    background-color: #2a3647;
+    color: white;
+    font-size: 20px;
+    animation: slideIn forwards ease-in-out .125s;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(400px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* Media Queries */
+
+/* Height */
+
+@media (max-height: 890px) {
+    .header {
+        padding: 40px 77px 0;
+    }
+
+    .headline > h1 {
+        font-size: 48px;
+    }
+
+    .signupContainer {
+        padding: 32px 64px;
+        gap: 18px;
+    }
+}
+

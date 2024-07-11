@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import LoginPage from './loginPage/loginPage';
+import SummaryPage from './summaryPage/summaryPage';
+import BoardPage from './boardPage/boardPage';
+import AddTaskPage from './addTaskPage/addTaskPagae';
+import ContactsPage from './contactsPage/contactsPage';
+import RegisterPage from './registerPage/registerPage';
+import ErrorPage from './errorPage/errorPage';
+import AuthProvider from './shared/authProvider';
+import FirestoreProvider from './shared/firestoreProvider';
+
 
 function App() {
+  const router = createBrowserRouter([
+    { path: '/', element: <SummaryPage />, errorElement: <ErrorPage /> },
+    { path: '/summary', element: <SummaryPage /> },
+    { path: '/board', element: <BoardPage /> },
+    { path: 'add-task', element: <AddTaskPage /> },
+    { path: 'contacts', element: <ContactsPage /> },
+    { path: 'login', element: <LoginPage /> },
+    { path: 'register', element: <RegisterPage /> }
+  ]);
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <FirestoreProvider>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </FirestoreProvider>
   );
 }
 

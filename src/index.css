@@ -1,13 +1,234 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+* {
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html {
+  scroll-behavior: smooth;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  width: 100%;
+  max-width: 1920px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  outline: none;
+  background-color: transparent;
+  font-family: 'Inter', sans-serif;
+  transition: all .125s ease-in-out;
+  border-color: transparent;
+}
+
+.loginBtn {
+  padding: 15px 24px;
+  border-radius: 8px;
+  background-color: #2A3647;
+  color: white;
+  border: 1px solid transparent;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.disabled-btn {
+  cursor: unset;
+  background-color: grey;
+}
+
+input {
+  border-color: transparent;
+  font-family: 'Inter', sans-serif;
+  outline: unset;
+}
+
+input:focus {
+  border-color: transparent;
+}
+
+.main-page {
+display: flex;
+width: 100%;
+}
+
+.content-complete {
+width: 100%;
+flex-direction: column;
+}
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.password-container {
+  margin-bottom: 12px;
+}
+
+.inputContainer > input {
+  width: 100%;
+  padding: 12px 21px;
+  border: 1px solid #D1D1D1;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.inputContainer >input:focus {
+  border-color: #29ABE2;
+}
+
+.inputContainer > input::placeholder {
+  color: #D1D1D1;
+  font-size: 20px;
+}
+
+.inputContainer > img {
+  position: absolute;
+  right: 21px;
+}
+
+.error-message {
+  color: #FF3D00;
+  font-size: 16px;
+  position: absolute;
+  bottom: -20px
+}
+
+.password-error {
+  bottom: -37px;
+}
+
+.checkbox-error {
+  left: 0;
+}
+
+.checkboxContainer {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 48px;
+}
+
+.checkboxContainer>label {
+  cursor: pointer;
+}
+
+.footer {
+  display: flex;
+  gap: 48px;
+  align-items: center;
+  align-self: center;
+  position: fixed;
+  bottom: 32px;
+}
+
+.footerLink {
+  color:#CDCDCD;
+}
+
+.footerLink:hover {
+  color: #29ABE2;
+}
+
+.backArrow {
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+
+  border-radius: 100%;
+}
+
+.backArrow:hover {
+  background-color: #CDCDCD;
+}
+
+/* inter-100 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100;
+  src: url('../public/assets/fonts/inter-v13-latin-100.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-200 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 200;
+  src: url('../public/assets/fonts/inter-v13-latin-200.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-300 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  src: url('../public/assets/fonts/inter-v13-latin-300.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../public/assets/fonts/inter-v13-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-500 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../public/assets/fonts/inter-v13-latin-500.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-600 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../public/assets/fonts/inter-v13-latin-600.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-700 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../public/assets/fonts/inter-v13-latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-800 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  src: url('../public/assets/fonts/inter-v13-latin-800.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-900 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  src: url('../public/assets/fonts/inter-v13-latin-900.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
