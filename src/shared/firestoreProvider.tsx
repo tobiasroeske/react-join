@@ -1,7 +1,8 @@
-import { collection, doc, onSnapshot, setDoc, Unsubscribe, updateDoc } from "firebase/firestore";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import { createContext, ReactNode, useContext } from "react";
 import { firestore } from "../firebaseConfig";
 import { UserCredential } from "firebase/auth";
+
 
 interface User {
     name: string;
@@ -10,11 +11,8 @@ interface User {
 }
 
 interface FirestoreContextType {
-    subUsersList: () => Unsubscribe;
-    allUsers: User[];
-    loading: boolean;
     addUser: (userId: string, userCred: UserCredential) => Promise<void>
-    updateUser: (userId:string, user: {}) => Promise<void>
+    updateUser: (userId: string, user: {}) => Promise<void>
 }
 
 interface FirestoreProdiverProps {
@@ -30,36 +28,32 @@ export function useFirestoreContext() {
     return firestoreContext;
 }
 
-function FirestoreProvider({children}: FirestoreProdiverProps) {
-    const [allUsers, setAllUsers] = useState<User[]>([])
-    const [loading, setLoading] = useState<boolean>(true);
+function FirestoreProvider({ children }: FirestoreProdiverProps) {
 
-    function getUsersRef() {
-        return collection(firestore, 'users')
+    function getRef(colName: string) {
+        return collection(firestore, colName)
     }
 
-    function getUserDocRef(userId: string) {
-        return doc(getUsersRef(), userId);
+    function getDocRef(colNane: string, docId: string) {
+        return doc(getRef(colNane), docId);
     }
 
     async function addUser(userId: string, userCred: UserCredential) {
         try {
-            await setDoc(getUserDocRef(userId), {id: userId, name: userCred.user.displayName, email: userCred.user.email});
+            await setDoc(getDocRef('users', userId), { id: userId, name: userCred.user.displayName, email: userCred.user.email });
         } catch (error) {
             console.log(error);
         }
-        
     }
 
-    async function updateUser(userId:string, user: {}) {
-        let userRef = getUserDocRef(userId);
+    async function updateUser(userId: string, user: {}) {
+        let userRef = getDocRef('users', userId);
         let userToAdd = setUserObject(user, userId);
         try {
             await updateDoc(userRef, userToAdd);
         } catch (error) {
             console.log(error)
         }
-        
     }
 
     function setUserObject(obj: any, id: string) {
@@ -70,24 +64,7 @@ function FirestoreProvider({children}: FirestoreProdiverProps) {
         }
     }
 
-    useEffect(() => {
-        const unsubscribe = onSnapshot(getUsersRef(), (snapshot) => {
-            const users: User[] = [];
-            snapshot.forEach((doc) => {
-                users.push({ id: doc.id, ...doc.data() } as User);
-            });
-            setAllUsers(users);
-            setLoading(false);
-            
-        });
-
-        return unsubscribe;
-    }, []);
-
     const firestoreValue: FirestoreContextType = {
-        subUsersList: () => onSnapshot(getUsersRef(), () => {}),
-        allUsers,
-        loading,
         addUser,
         updateUser
     }
@@ -97,6 +74,7 @@ function FirestoreProvider({children}: FirestoreProdiverProps) {
             {children}
         </FirestoreContext.Provider>
     )
+    
 }
 
 export default FirestoreProvider;

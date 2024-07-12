@@ -1,22 +1,26 @@
-import { User } from "firebase/auth";
+
 import Header from "./header/header";
 import Sidenav from "./sidenav/sidenav";
 import LoadingSpinner from "./loadingSpinnerComponent";
-import Summary from "../../summaryPage/components/summaryComponent";
+import { useAuthContext } from "../authProvider";
 
 type PageLayoutProps = {
-    loading: boolean;
+    Component: React.ComponentType,
+    onContactPage: boolean
 }
 
-function PageLayout({loading}: PageLayoutProps) {
+function PageLayout({Component, onContactPage}: PageLayoutProps) {
+    const authContext = useAuthContext()
+    const { loading } = authContext;
+
     return (
         <>
             <div className='main-page'>
                 <Sidenav />
                 <div className='content-complete'>
                     <Header />
-                    <div className='main-content'>
-                        {loading ? <LoadingSpinner />  : <Summary/>}
+                    <div className={onContactPage ? 'contactPageContainer' : 'main-content'}>
+                        {loading ? <LoadingSpinner />  : <Component/>}
                     </div>
                 </div>
             </div>

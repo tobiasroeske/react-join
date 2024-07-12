@@ -24,13 +24,13 @@ function App() {
     { path: 'legal-notice', element: <LegalNotice /> },
     { path: 'privacy-policy', element: <PrivacyPolicy /> }
   ]);
-  
+
   return (
-    <FirestoreProvider>
       <AuthProvider>
-        <RouterProvider router={router} />
+        <FirestoreProvider>
+          <RouterProvider router={router} />
+        </FirestoreProvider>
       </AuthProvider>
-    </FirestoreProvider>
   );
 }
 

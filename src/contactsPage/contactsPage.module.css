@@ -1,0 +1,221 @@
+.contactContent {
+    display: flex;
+    height: 100%;
+    background-color: blanchedalmond;
+    width: 100%;
+}
+
+.sidebar {
+    width: 33%;
+    min-width: 456px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 96px);
+    background-color: white;
+    padding: 32px 24px 32px 48px;
+    overflow: auto;
+}
+
+.contactPreview {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    height: 100%;
+    flex: 1;
+    background-color: #F6F7F8;
+    padding: 72px 48px;
+    gap: 32px;
+    overflow-x: hidden;
+}
+
+.addContactBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-size: 21px;
+    font-weight: 700;
+    border: 1px solid #2A3647;
+    background-color: #2A3647;
+    padding: 12px 0;
+    border-radius: 10px;
+    color: white;
+    transition: all .125s ease-in-out;
+}
+
+.addContactBtn:hover {
+    background-color: #29ABE2;
+    border: 1px solid #29ABE2;
+    box-shadow: 0px 6px 5px 0px rgba(190, 191, 192, 0.75);
+}
+
+.contactList {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.letterContainer {
+    padding: 17px 36px;
+    font-size: 21px;
+}
+
+.seperator {
+    width: 100%;
+    height: 1px;
+    background-color: #D1D1D1;
+}
+
+.contactButton {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 35px;
+    border-radius: 10px;
+    padding: 15px 24px;
+    transition: all .125s ease-in-out;
+    width: 100%;
+}
+
+.contactButton:hover {
+    background-color: #D1D1D1;
+}
+
+.initials {
+    border: 2px solid #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    font-size: 12px;
+    border-radius: 100%;
+    color: white;
+}
+
+.headline {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
+    align-self: flex-start;
+    width: 100%;
+    height: 74px;
+}
+
+h1 {
+    font-size: 61px;
+}
+
+.seperatorHeadline {
+    display: flex;
+    width: 3px;
+    height: 80%;
+    background-color: #29ABE2;
+}
+
+.headline>span {
+    font-size: 27px;
+    color: #2A3647;
+}
+
+.contactDetail {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 40px;
+    transition: all .125s ease-in-out;
+}
+
+.slideInAnimation {
+    animation: slideIn .125s ease-in-out forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(1100px);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.contactTop {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 54px;
+}
+
+.initialsDetail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    font-size: 47px;
+    font-weight: 500;
+    border: 3px solid #FFFFFF;
+    border-radius: 100%;
+    color: white;
+}
+
+.nameBox {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 47px;
+    font-weight: 500;
+}
+
+.editBox {
+    font-size: 16px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.editBox>span {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.editBox>span:hover,
+.editBox>span:hover .editBox>span svg {
+    color: #29ABE2;
+    fill: #29ABE2;
+}
+
+.editBox>span svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.information {
+    font-size: 20px;
+}
+
+.emailContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.emailBox {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.emailLink {
+    color:#29ABE2;
+}
