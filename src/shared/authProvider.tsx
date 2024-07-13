@@ -36,17 +36,38 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     async function createUser(email: string, password: string) {
         setLoading(true);
-        return await createUserWithEmailAndPassword(auth, email, password);
+        try {
+            return await createUserWithEmailAndPassword(auth, email, password);
+        } catch (error) {
+            console.error('Error creating user: ', error);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
     }
 
     async function loginUser(email: string, password: string) {
         setLoading(true);
-        return await signInWithEmailAndPassword(auth, email, password);
+        try {
+            return await signInWithEmailAndPassword(auth, email, password);
+        } catch (error) {
+            console.error('Error logging in: ', error);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
     }
 
     async function logoutUser() {
         setLoading(true);
-        return await signOut(auth);
+        try {
+            await signOut(auth);
+        } catch (error) {
+            console.error('Error logging out: ', error);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
     }
 
     useEffect(() => {

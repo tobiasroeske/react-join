@@ -14,7 +14,7 @@ import PrivacyPolicy from './privacyPolicyPage/privacyPolicyPage';
 
 function App() {
   const router = createBrowserRouter([
-    { path: '/', element: <SummaryPage />, errorElement: <ErrorPage /> },
+    { path: '/', element: <LoginPage />, errorElement: <ErrorPage /> },
     { path: '/summary', element: <SummaryPage /> },
     { path: '/board', element: <BoardPage /> },
     { path: 'add-task', element: <AddTaskPage /> },
@@ -26,11 +26,13 @@ function App() {
   ]);
 
   return (
+
+    <FirestoreProvider>
       <AuthProvider>
-        <FirestoreProvider>
-          <RouterProvider router={router} />
-        </FirestoreProvider>
+        <RouterProvider router={router} />
       </AuthProvider>
+    </FirestoreProvider>
+
   );
 }
 

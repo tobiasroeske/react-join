@@ -4,14 +4,17 @@ import ContactList from './contactListComponent';
 import NewContactButton from './newContactComponent';
 
 
-type ContactBarProps = {onContactSelect: (contact: Contact) => void}
+type ContactBarProps = {
+    onContactSelect: (contact: Contact) => void,
+    onShowPopup: () => void
+}
 
-function ContactBar({onContactSelect}: ContactBarProps) {
+function ContactBar({onContactSelect, onShowPopup}: ContactBarProps) {
     return (
 
         <div className={styles.sidebar}>
-            <NewContactButton />
-            <ContactList onContactSelect={onContactSelect}/>
+            <NewContactButton showPopup={() => onShowPopup()} />
+            <ContactList onContactSelect={onContactSelect} />
         </div>
 
     );

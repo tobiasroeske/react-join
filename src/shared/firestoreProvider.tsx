@@ -1,18 +1,13 @@
-import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { createContext, ReactNode, useContext } from "react";
 import { firestore } from "../firebaseConfig";
 import { UserCredential } from "firebase/auth";
-
-
-interface User {
-    name: string;
-    id: string;
-    email: string;
-}
+import { Contact } from "./interfaces/contact.interface";
 
 interface FirestoreContextType {
     addUser: (userId: string, userCred: UserCredential) => Promise<void>
     updateUser: (userId: string, user: {}) => Promise<void>
+    addContact: (newContact: Contact) => Promise<void>
 }
 
 interface FirestoreProdiverProps {
@@ -46,6 +41,15 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
         }
     }
 
+    async function addContact(newContact: Contact) {
+        try {
+            await addDoc(getRef('contacts'), {... newContact})
+            console.log(newContact)
+        } catch (error) {
+            console.error('Error while creating contact')
+        }
+    }
+
     async function updateUser(userId: string, user: {}) {
         let userRef = getDocRef('users', userId);
         let userToAdd = setUserObject(user, userId);
@@ -66,7 +70,8 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
 
     const firestoreValue: FirestoreContextType = {
         addUser,
-        updateUser
+        updateUser,
+        addContact
     }
 
     return (

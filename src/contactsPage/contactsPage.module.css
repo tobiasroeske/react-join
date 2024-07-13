@@ -219,3 +219,125 @@ h1 {
 .emailLink {
     color:#29ABE2;
 }
+
+.dialogContainer {
+    display: flex;
+}
+
+.leftside {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 12px;
+    padding: 66px 48px;
+    color: white;
+    background-color: #2A3647;
+    border-radius: 30px 0 0 30px;
+}
+
+.addContactContent {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.addContactContent> span {
+    font-size: 27px;
+}
+
+.dialogSeperator {
+    width: 90px;
+    background-color: #29ABE2;
+    height: 3px;
+}
+
+.rightside {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    gap: 48px;
+    padding: 72px 40px 72px 48px;
+    border-radius: 0 30px 30px 0;
+}
+
+.imgContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    background-color: #d1d1d1;
+    border-radius: 100%;
+}
+
+.imgContainer > img {
+    object-fit: cover;
+}
+
+.addContactForm {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.formAction {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.cancelBtn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid #2A3647;
+    border-radius: 10px;
+    padding: 16px;
+    color: #2A3647;
+    font-size: 20px;
+}
+
+.cancelBtn:hover {
+    border: 1px solid #29ABE2;
+    color:  #29ABE2;
+    box-shadow: 0px 6px 5px 0px rgba(190,191,192,0.75);
+}
+
+.cancelBtn:hover svg {
+    stroke: #29ABE2;
+    color: #29ABE2;
+}
+
+.submitBtn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 10px;
+    padding: 16px;
+    background-color: #2A3647;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.submitBtn:hover {
+    background-color: #29ABE2;
+    box-shadow: 0px 6px 5px 0px rgba(190,191,192,0.75);
+}
+
+.cancelIcon {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    position: absolute;
+    top: 32px;
+    right: 32px;
+}
+
+.cancelIcon:hover svg {
+    stroke: #29ABE2;
+    color: #29ABE2;
+}

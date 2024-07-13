@@ -9,7 +9,7 @@ type ContactButtonProps = {
 
 function ContactButton({ contact, onContactSelect }: ContactButtonProps) {
     let initials = useContactInitials(contact)
-    //const colors: string [] = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#FF4646']
+    
 
     return ( 
         <div className={styles.contactButton} onClick={onContactSelect}>
