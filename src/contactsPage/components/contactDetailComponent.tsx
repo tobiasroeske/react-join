@@ -4,12 +4,17 @@ import useContactInitials from '../../shared/hooks/useContactInitials';
 import { Contact } from '../../shared/interfaces/contact.interface';
 import styles from '../contactsPage.module.css'
 import classNames from 'classnames';
+import { useFirestoreContext } from '../../shared/firestoreProvider';
 
 
 type ContactDetailsProps = {
     selectedContact: Contact | null,
-    slidedIn: boolean,
+    onEditContact: () => void,
+    handleSelectContact: (selectedContact: Contact | null) => void,
+    creationSuccesful: boolean
 }
+
+const TRANSITION_DELAY = 125
 
 let editSvg = (<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M3.0612 22.1418H4.92787L16.4279 10.6418L14.5612 8.7751L3.0612 20.2751V22.1418ZM22.1279 8.70843L16.4612 3.10843L18.3279 1.24176C18.839 0.730653 19.4668 0.475098 20.2112 0.475098C20.9556 0.475098 21.5834 0.730653 22.0945 1.24176L23.9612 3.10843C24.4723 3.61954 24.739 4.23621 24.7612 4.95843C24.7834 5.68065 24.539 6.29732 24.0279 6.80843L22.1279 8.70843ZM20.1945 10.6751L6.0612 24.8084H0.394531V19.1418L14.5279 5.00843L20.1945 10.6751Z" fill="currentColor" />
@@ -21,27 +26,27 @@ let deleteSvg = (<svg width="16" height="18" viewBox="0 0 16 18" fill="none" xml
 </svg>
 )
 
-function ContactDetail({ selectedContact, slidedIn }: ContactDetailsProps) {
+function ContactDetail({ selectedContact, onEditContact, handleSelectContact, creationSuccesful }: ContactDetailsProps) {
+    const { deleteContact } = useFirestoreContext();
     let initials = useContactInitials(selectedContact);
-    const [isAnimating, setIsAnimating] = useState(false);
+    
 
-    useEffect(() => {
-        if (slidedIn) {
-            setIsAnimating(true);
-            const timer = setTimeout(() => setIsAnimating(false), 125);
-            return () => clearTimeout(timer);
+    async function handleDeleteContact() {
+        if (selectedContact) {
+            await deleteContact(selectedContact.id)
+            handleSelectContact(null);
         }
-    }, [slidedIn, selectedContact]);
+    }
 
     return (
-        <div className={classNames(styles.contactDetail, { [styles.slideInAnimation]: isAnimating })}>
+        <div className={classNames(styles.contactDetail)}>
             <div className={styles.contactTop}>
                 <div className={styles.initialsDetail} style={selectedContact ? { backgroundColor: selectedContact.color } : {}}>{initials}</div>
                 <div className={styles.nameBox}>
                     {selectedContact && selectedContact.name}
                     <div className={styles.editBox}>
-                        <span>{editSvg} Edit</span>
-                        <span>{deleteSvg} Delete</span>
+                        <span onClick={onEditContact}>{editSvg} Edit</span>
+                        <span onClick={handleDeleteContact}>{deleteSvg} Delete</span>
                     </div>
                 </div>
             </div>
@@ -56,6 +61,10 @@ function ContactDetail({ selectedContact, slidedIn }: ContactDetailsProps) {
                     <span><b>Phone:</b></span>
                     <span>{selectedContact && selectedContact.phone}</span>
                 </div>
+            </div>
+
+            <div className={classNames(styles.contactCreatedBox, { [styles.slideIn]: creationSuccesful })}>
+                Contact succesfully created
             </div>
         </div>
     );

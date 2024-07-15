@@ -132,12 +132,12 @@ h1 {
 }
 
 .slideInAnimation {
-    animation: slideIn .125s ease-in-out forwards;
+    animation: slideIn .125s 1s ease-in-out forwards;
 }
 
 @keyframes slideIn {
     from {
-        transform: translateX(1100px);
+        transform: translateX(1500px);
     }
 
     to {
@@ -220,8 +220,30 @@ h1 {
     color:#29ABE2;
 }
 
+.contactCreatedBox {
+    display: flex;
+    background-color: #2A3647;
+    color: white;
+    padding: 16px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 4px 0px #00000026;
+    transition: transform .125s ease-in-out;
+    transform: translateX(500%);
+}
+
+.slideIn {
+    transform: translateX(0);
+}
+
+
 .dialogContainer {
     display: flex;
+    transition: transform 0.25s ease-in-out;
+    transform: translateX(300%)
+}
+
+.dialogContainer.show {
+    transform: translateX(0);
 }
 
 .leftside {
@@ -329,6 +351,7 @@ h1 {
 }
 
 .cancelIcon {
+    cursor: pointer;
     display: flex;
     align-content: center;
     justify-content: center;

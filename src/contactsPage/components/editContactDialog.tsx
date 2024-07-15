@@ -1,8 +1,7 @@
-
-import { useEffect, useState } from 'react';
-import styles from '../contactsPage.module.css'
-import AddContactForm from './addContactForm';
+import styles from '../contactsPage.module.css';
 import classNames from 'classnames';
+import EditContactForm from './editContactFormComponent';
+import { useEffect, useState } from 'react';
 import { Contact } from '../../shared/interfaces/contact.interface';
 
 const TRANSITION_DELAY = 125;
@@ -12,19 +11,19 @@ let cancelSvg = (<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xml
 </svg>
 )
 
-type AddContactDialogProps = {
+type EditContactComponentProps = {
     onShowPopup: () => void,
-    onContactCreation: (contact: Contact | null) => void,
-    creationSuccesful: () => void
+    selectedContact: Contact | null,
+    onContactEdit: (contact: Contact | null) => void,
 }
 
-function AddContactDialog({onShowPopup, onContactCreation, creationSuccesful}: AddContactDialogProps) {
+function EditContactComponent({ onShowPopup, selectedContact, onContactEdit }: EditContactComponentProps) {
     const [formVisible, setFormVisible] = useState<boolean>(false);
 
     useEffect(() => {
         setFormVisible(true);
     }, []);
-
+    
     const handleClose = () => {
         setFormVisible(false);
         setTimeout(onShowPopup, TRANSITION_DELAY);
@@ -35,8 +34,7 @@ function AddContactDialog({onShowPopup, onContactCreation, creationSuccesful}: A
             <div className={styles.leftside}>
                 <img src="/assets/img/logo_dark.png" alt="" />
                 <div className={styles.addContactContent}>
-                <h1>Add Contact</h1>
-                <span>Tasks are better with a team!</span>
+                    <h1>Edit contact</h1>
                     <div className={styles.dialogSeperator}></div>
                 </div>
             </div>
@@ -45,11 +43,11 @@ function AddContactDialog({onShowPopup, onContactCreation, creationSuccesful}: A
                     <img src="/assets/icons/person_contacts.png" alt="" />
                 </div>
 
-                <AddContactForm creationSuccesful={creationSuccesful} onContactCreation={onContactCreation} icon={cancelSvg} onShowPopup={handleClose} />
+                <EditContactForm selectedContact={selectedContact} onShowPopup={handleClose} onContactEdit={onContactEdit}/>
                 <div className={styles.cancelIcon} onClick={handleClose}>{cancelSvg}</div>
             </div>
         </div>
     );
 }
 
-export default AddContactDialog;
+export default EditContactComponent;

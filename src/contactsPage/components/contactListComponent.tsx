@@ -9,20 +9,18 @@ type ContactListProps = { onContactSelect: (contact: Contact) => void }
 
 function ContactList({ onContactSelect }: ContactListProps) {
     const [initials, setInitials] = useState<string[]>([]);
+    const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
     let contacts = useContacts()
 
-    function getUniqueInitials(contacts: Contact[]): string[] {
-        const initialsSet: Set<string> = new Set();
-        contacts.forEach(contact => {
-            const initial = contact.name.charAt(0).toUpperCase();
-            initialsSet.add(initial);
-        });
-        return Array.from(initialsSet);
-    }
-
     useEffect(() => {
-        setInitials(getUniqueInitials(contacts))
+        const uniqueInitials = Array.from(new Set(contacts.map(contact => contact.name.charAt(0).toUpperCase())));
+        setInitials(uniqueInitials);
     }, [contacts]);
+
+    const handleContactSelect = (contact: Contact) => {
+        setSelectedContact(contact);
+        onContactSelect(contact);
+    };
 
     return (
         <div className={styles.contactList}>
@@ -30,9 +28,13 @@ function ContactList({ onContactSelect }: ContactListProps) {
                 <React.Fragment key={index}>
                     <div className={styles.letterContainer}>{char}</div>
                     <div className={styles.seperator}></div>
-                    {contacts.filter(contact => contact.name.startsWith(char)).map((c) =>
-                        <React.Fragment key={c.email}>
-                            <ContactButton onContactSelect={() => onContactSelect(c)} contact={c} />
+                    {contacts.filter(contact => contact.name.startsWith(char)).map((contact) =>
+                        <React.Fragment key={contact.id}>
+                            <ContactButton 
+                                contact={contact} 
+                                onContactSelect={() => handleContactSelect(contact)} 
+                                isSelected={selectedContact === contact}
+                            />
                         </React.Fragment>
                     )}
                 </React.Fragment>

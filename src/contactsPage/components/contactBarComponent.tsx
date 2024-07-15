@@ -6,17 +6,15 @@ import NewContactButton from './newContactComponent';
 
 type ContactBarProps = {
     onContactSelect: (contact: Contact) => void,
-    onShowPopup: () => void
+    onShowPopup: () => void,
 }
 
 function ContactBar({onContactSelect, onShowPopup}: ContactBarProps) {
     return (
-
         <div className={styles.sidebar}>
-            <NewContactButton showPopup={() => onShowPopup()} />
+            <NewContactButton showPopup={onShowPopup} />
             <ContactList onContactSelect={onContactSelect} />
         </div>
-
     );
 }
 

@@ -3,6 +3,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import styles from '../contactsPage.module.css'
 import { useFirestoreContext } from "../../shared/firestoreProvider";
 import { useAuthContext } from "../../shared/authProvider";
+import { Contact } from "../../shared/interfaces/contact.interface";
+import capitalizeFirstCharater from "../../shared/utils/capitalizeFirstCharacter";
 
 type FormFields = {
     name: string,
@@ -11,21 +13,29 @@ type FormFields = {
 }
 
 type AddContactFormProps = {
-    icon: React.ReactNode;
+    icon: React.ReactNode,
+    onShowPopup: () => void,
+    onContactCreation: (contact: Contact | null) => void,
+    creationSuccesful: () => void
 }
 
 
-function AddContactForm({ icon }: AddContactFormProps) {
+function AddContactForm({ icon, onShowPopup, onContactCreation, creationSuccesful }: AddContactFormProps) {
     const { addContact } = useFirestoreContext();
     const { user } = useAuthContext()
-    const { register, handleSubmit, formState: { errors } } = useForm<FormFields>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormFields>();
     const [phoneValue, setPhoneValue] = useState('');
     const colors: string[] = ['#FF7A00', '#9327FF', '#6E52FF', '#FC71FF', '#FFBB2B', '#1FD7C1', '#462F8A', '#FF4646'];
 
     const onSubmit: SubmitHandler<FormFields> = async (data) => {
         if (user) {
-            let newContact = { ... data, creatorId: user.uid, color: getRandomColor()};
-            await addContact(newContact)
+            let newContact = {...data, creatorId: user.uid, color: getRandomColor(), id: ''};
+            newContact.name = capitalizeFirstCharater(data.name);
+            await addContact(newContact);
+            onShowPopup();
+            onContactCreation({...newContact as Contact})
+            creationSuccesful();
+            reset();
         }
     }
 
@@ -81,7 +91,7 @@ function AddContactForm({ icon }: AddContactFormProps) {
             </div>
 
             <div className={styles.formAction}>
-                <div className={styles.cancelBtn}>Cancel {icon}</div>
+                <div className={styles.cancelBtn} onClick={onShowPopup}>Cancel {icon}</div>
                 <button type="submit" className={styles.submitBtn}>Create Contact <img src="/assets/icons/check_contacts.png" alt="" /></button>
             </div>
         </form>

@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import { createContext, ReactNode, useContext } from "react";
 import { firestore } from "../firebaseConfig";
 import { UserCredential } from "firebase/auth";
@@ -8,6 +8,8 @@ interface FirestoreContextType {
     addUser: (userId: string, userCred: UserCredential) => Promise<void>
     updateUser: (userId: string, user: {}) => Promise<void>
     addContact: (newContact: Contact) => Promise<void>
+    editContact: (editedContact: Contact) => Promise<void>
+    deleteContact: (contactId: string) => Promise<void>
 }
 
 interface FirestoreProdiverProps {
@@ -43,10 +45,26 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
 
     async function addContact(newContact: Contact) {
         try {
-            await addDoc(getRef('contacts'), {... newContact})
-            console.log(newContact)
+            let  response = await addDoc(getRef('contacts'), {...newContact})
+            await updateDoc(getDocRef('contacts', response.id), {id: response.id});
         } catch (error) {
             console.error('Error while creating contact')
+        }
+    }
+
+    async function editContact(editedContact: Contact) {
+        try {
+            await updateDoc(getDocRef('contacts', editedContact.id), {...editedContact})
+        } catch (error) {
+            console.error('Error while updating contact', error)
+        }
+    }
+
+    async function deleteContact(contactId: string) {
+        try {
+            await deleteDoc(getDocRef('contacts', contactId))
+        } catch (error) {
+            console.error('Error while deleting contact', error)
         }
     }
 
@@ -71,7 +89,9 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
     const firestoreValue: FirestoreContextType = {
         addUser,
         updateUser,
-        addContact
+        addContact,
+        editContact,
+        deleteContact
     }
 
     return (
