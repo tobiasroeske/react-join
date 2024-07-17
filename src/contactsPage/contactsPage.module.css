@@ -364,3 +364,20 @@ h1 {
     stroke: #29ABE2;
     color: #29ABE2;
 }
+
+/* Media Queries*/
+
+/* MAX HEIGHT */
+
+@media (max-height: 800px) {
+    .contactPreview {
+        padding: 48px;
+    }
+}
+
+@media (max-height: 750px) {
+    .contactPreview {
+        gap: 18px;
+        padding: 32px 48px;
+    }
+}
