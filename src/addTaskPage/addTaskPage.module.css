@@ -22,6 +22,7 @@
 }
 
 .contactBox {
+    cursor: pointer;
     padding: 12px 21px;
     display: flex;
     align-items: center;
@@ -67,7 +68,7 @@
     border-radius: 10px 10px 10px 0;
     position: absolute;
     bottom: 40px;
-    right: 12px;
+    left: 224px;
     opacity: 0;
     transition: all .125s ease-in-out;
 }
@@ -75,3 +76,164 @@
 .opacity100 {
     opacity: 1;
 }
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.formFields {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    gap: 32px;
+}
+
+.leftside, .rightside {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.seperator {
+    width: 1px;
+    height: 100%;
+    background-color: #D1D1D1;
+}
+
+.prioBtnContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.prioBtn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background-color: white;
+    padding: 16px 10px;
+    gap: 8px;
+    box-shadow: 0px 0px 4px 0px #0000001A;
+    font-size: 20px;
+    width: calc((100% - 16px) / 3)
+}
+
+.selectedHigh {
+    background-color: #FF3D00;
+    color: white;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.selectedLow {
+    background-color: #7AE229;
+    color: white;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.selectedMedium {
+    background-color: #FFA800;
+    color: white;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.selectedHigh > img,
+.selectedLow > img,
+.selectedMedium > img {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(91%) saturate(1%) hue-rotate(198deg) brightness(106%) contrast(100%);
+}
+
+.category {
+    height: fit-content;
+}
+
+.category > div {
+    cursor: pointer;
+    padding: 12px 21px;
+    border-radius: 8px;
+}
+
+.category > div:hover {
+    background-color: #D1D1D1;
+}
+
+.label {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.required {
+    color: red;
+}
+
+.actionField {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.requiredContainer {
+    font-size: 20px;
+    align-self: flex-start;
+}
+
+.clearBtn {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #2A3647;
+    border-radius: 10px;
+    color: #2A3647;
+    gap: 4px;
+    font-size: 21px;
+}
+
+.actionBtnField {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    align-self: flex-end;
+}
+
+.clearBtn:hover {
+    
+    border-color: #29ABE2;
+    color: #29ABE2;
+}
+
+.clearBtn:hover >img {
+    filter: brightness(0) saturate(100%) invert(66%) sepia(16%) saturate(6658%) hue-rotate(165deg) brightness(94%) contrast(89%);
+}
+
+.submitBtn {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background-color: #2A3647;
+    color: white;
+    gap: 4px;
+    font-size: 21px;
+}
+
+.submitBtn:hover {
+    background-color: #29ABE2;
+}
+
+
+
+
+

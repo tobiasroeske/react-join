@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useContacts from "../../shared/hooks/useContacts";
 import styles from '../addTaskPage.module.css';
 import Dropdown from "./dropdownComponent";
@@ -6,9 +6,13 @@ import { Contact } from "../../shared/interfaces/contact.interface";
 import getInitials from "../../shared/utils/getInitials";
 import classNames from "classnames";
 
-function AddContactSelect() {
+type AddContactSelectProps = {
+    selectedContacts: Contact[],
+    handleContactSelect: (contact: Contact) => void
+};
+
+function AddContactSelect({ selectedContacts, handleContactSelect }: AddContactSelectProps) {
     const [showDropdown, setShowDropdown] = useState<boolean>(false);
-    const [selectedContacts, setSelectedContacts] = useState<Contact[]>([]);
     const [showContacts, setShowContacts] = useState<boolean>(false);
     let contacts = useContacts();
 
@@ -16,29 +20,14 @@ function AddContactSelect() {
         setShowDropdown(!showDropdown);
     }
 
-    function handleContactSelect(selectedContact: Contact) {
-        let newSelectedContacts: Contact[] = [...selectedContacts];
-        let contactIndex = newSelectedContacts.findIndex(contact => contact.id === selectedContact.id);
-        if (contactIndex === -1) {
-            newSelectedContacts.push(selectedContact);
-        } else {
-            newSelectedContacts.splice(contactIndex, 1);
-        }
-        setSelectedContacts(newSelectedContacts);
-    }
-
     function toggleExtraContactPopup() {
         setShowContacts(!showContacts)
     }
 
-    useEffect(() => {
-        console.log(selectedContacts);
-    }, [selectedContacts]);
-
     return (
         <>
             <div className='inputContainer'>
-                <label htmlFor="assignedContacts">Assigned to</label>
+                <label htmlFor="assignedContacts" className={styles.label}>Assigned to</label>
                 <input
                     type="text"
                     id="assignedContacts"
