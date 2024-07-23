@@ -32,7 +32,6 @@ function SelectCategory({onCategorySelect, selectedCategory}: SelectCategoryProp
                     readOnly
                     value={selectedCategory}
                     onClick={toggleDropdownMenu} />
-                <img src="" alt="" />
                 {showDropdown ? (
                     <img src="/assets/icons/arrow_drop_down_close.svg" className={styles.dropwArrow} alt="" />
                 ) : (
@@ -44,7 +43,6 @@ function SelectCategory({onCategorySelect, selectedCategory}: SelectCategoryProp
                         <div onClick={() => handleCategorySelect('User Story')} >User Story</div>
                     </div>}
             </div>
-
         </>
 
     );
