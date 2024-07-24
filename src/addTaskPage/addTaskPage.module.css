@@ -1,3 +1,15 @@
+.addTaskContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    gap: 32px;
+    position: relative;
+    overflow-y: hidden;
+}
+
 .headline {
     align-self: flex-start;
 }
@@ -16,7 +28,7 @@
     height: 196px;
     overflow: auto;
     position: absolute;
-    top: 63px;
+    top: 80px;
     z-index: 1;
 }
 
@@ -86,6 +98,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    flex: 1;
 }
 
 .formFields {
@@ -105,7 +118,7 @@
 
 .seperator {
     width: 1px;
-    height: 100%;
+    height: 385px;
     background-color: #D1D1D1;
 }
 
@@ -320,5 +333,32 @@
 .content {
     flex: 1;
 }
+
+.disabledBtn {
+    cursor: unset;
+    background-color: #646262;
+}
+.disabledBtn:hover {
+    background-color: #646262;
+}
+
+.taskCreated {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    background-color: #2A3647;
+    color: white;
+    font-weight: 500;
+    font-size: 21px;
+    padding: 12px 21px;
+    border-radius: 12px;
+    position: absolute;
+    top: 200%;
+    transition: all .125s ease-in-out;
+}
+
+
+
+
 
 

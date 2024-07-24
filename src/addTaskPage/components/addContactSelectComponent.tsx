@@ -26,7 +26,7 @@ function AddContactSelect({ selectedContacts, handleContactSelect }: AddContactS
 
     return (
         <>
-            <div className='inputContainer'>
+            <div className='inputContainer' >
                 <label htmlFor="assignedContacts" className={styles.label}>Assigned to</label>
                 <input
                     type="text"
@@ -35,6 +35,7 @@ function AddContactSelect({ selectedContacts, handleContactSelect }: AddContactS
                     placeholder="Select contacts to assign"
                     onClick={toggleDropdown}
                     readOnly
+                    style={showDropdown ? {'borderBottomLeftRadius': 0, 'borderBottomRightRadius': 0} : {}}
                 />
                 {showDropdown ? (
                     <img src="/assets/icons/arrow_drop_down_close.svg" className={styles.dropwArrow} alt="" />

@@ -4,9 +4,10 @@ export interface Task {
     creatorId: string;
     title: string;
     description: string;
-    duteDate: number;
+    dueDate: number;
     assignedContacts: Contact[];
     priority: string;
-    category: 'Technical Task' | 'User Story';
+    category: string | 'Technical Task' | 'User Story';
     subtasks: string [];
+    state: 'to-do' | 'in-progress' | 'await-feedback' | 'done'
 }

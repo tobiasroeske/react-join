@@ -31,7 +31,8 @@ function SelectCategory({onCategorySelect, selectedCategory}: SelectCategoryProp
                     placeholder="Select task category"
                     readOnly
                     value={selectedCategory}
-                    onClick={toggleDropdownMenu} />
+                    onClick={toggleDropdownMenu}
+                    style={showDropdown ? {'borderBottomLeftRadius': 0, 'borderBottomRightRadius': 0} : {}} />
                 {showDropdown ? (
                     <img src="/assets/icons/arrow_drop_down_close.svg" className={styles.dropwArrow} alt="" />
                 ) : (

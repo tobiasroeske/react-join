@@ -3,6 +3,7 @@ import { createContext, ReactNode, useContext } from "react";
 import { firestore } from "../firebaseConfig";
 import { UserCredential } from "firebase/auth";
 import { Contact } from "./interfaces/contact.interface";
+import { Task } from "./interfaces/task.interface";
 
 interface FirestoreContextType {
     addUser: (userId: string, userCred: UserCredential) => Promise<void>
@@ -10,6 +11,7 @@ interface FirestoreContextType {
     addContact: (newContact: Contact) => Promise<void>
     editContact: (editedContact: Contact) => Promise<void>
     deleteContact: (contactId: string) => Promise<void>
+    addTask: (newTask: Task) => Promise<void>
 }
 
 interface FirestoreProdiverProps {
@@ -39,7 +41,7 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
         try {
             await setDoc(getDocRef('users', userId), { id: userId, name: userCred.user.displayName, email: userCred.user.email });
         } catch (error) {
-            console.log(error);
+            console.error('Error while adding user', error);
         }
     }
 
@@ -48,7 +50,16 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
             let  response = await addDoc(getRef('contacts'), {...newContact})
             await updateDoc(getDocRef('contacts', response.id), {id: response.id});
         } catch (error) {
-            console.error('Error while creating contact')
+            console.error('Error while creating contact', error)
+        }
+    }
+
+    async function addTask(newTask: Task) {
+        try {
+            let response = await addDoc(getRef('tasks'), {...newTask});
+            await updateDoc(getDocRef('tasks', response.id), {id: response.id});
+        } catch (error) {
+            console.error('Error while adding task', error)
         }
     }
 
@@ -91,7 +102,8 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
         updateUser,
         addContact,
         editContact,
-        deleteContact
+        deleteContact,
+        addTask
     }
 
     return (

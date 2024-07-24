@@ -75,6 +75,7 @@ function AddSubtask({ subtasks, setSubtasks }: AddSubtaskProps) {
                     value={inputValue}
                     onChange={handleChange}
                     onKeyDown={handleKeydown}
+                    
                 />
                 {inputSelected ? (
                     <div className={styles.addIconContainer}>
