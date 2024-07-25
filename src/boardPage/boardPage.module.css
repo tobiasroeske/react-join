@@ -1,0 +1,195 @@
+.BoardContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 32px;
+    width: 100%;
+    height: 100%;
+}
+
+.headline {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.searchContainer {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.addTaskBtn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border-radius: 8px;
+    background-color: #2A3647;
+    color: white;
+    border: 1px solid transparent;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.popupContent {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 30px;
+    padding: 48px 40px;
+    transform: translateX(250%);
+    transition: all .125s ease-in-out;
+    transition-delay: .5s;
+}
+
+.closeIcon {
+    cursor: pointer;
+    position: absolute;
+    top: 48px;
+    right: 40px;
+    border-radius: 100%;
+}
+
+.closeIcon:hover {
+    background-color: #eeeeee;
+}
+
+.columnContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+    min-height: 252px;
+    width: 100%;
+}
+
+.taskColumn {
+    display: flex;
+    flex-direction: column;
+    width: 252px;
+    height: 100%;
+    gap: 24px;
+}
+
+.columnHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.columnHeader > h3 {
+    color: #42526E;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.addTaskIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 3px;
+    border-radius: 8px;
+    border: 2px solid #2A3647;
+    transition: all .125s ease-in-out;
+}
+
+.addTaskIcon:hover {
+    filter: invert(72%) sepia(48%) saturate(4565%) hue-rotate(165deg) brightness(93%) contrast(90%);
+}
+
+.task {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 24px;
+    border-radius: 24px;
+    background-color: white;
+    box-shadow: 0px 0px 10px 3px #00000014;
+    width: 100%;
+}
+
+.category {
+    background-color: #0038FF;
+    padding: 4px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    text-align: center;
+    color: white;
+    width: fit-content;
+}
+
+.task > h4 {
+    color: #2A3647;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.titleDescription {
+    display: flex;
+    flex-direction: column;
+    gap: 8px
+}
+
+.description {
+    font-size: 16px;
+    font-weight: 400;
+    color: #A8A8A8;
+}
+
+.subtasksProgress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.progressbar {
+    background-color: #F4F4F4;
+    border-radius: 8px;
+    width: 128px;
+    height: 8px;
+    position: relative;
+}
+
+.progressbarFilled {
+    background-color: #4589FF;
+    height: 8px;
+    position: absolute;
+    left: 0;
+    width: 66%;
+    border-radius: 8px;
+}
+
+.subtasksProgress > span {
+    font-size: 12px;
+}
+
+.contactPriorityContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.contactIcons {
+    display: flex;
+    align-items: center;
+}
+
+.contactIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: white;
+    background-color: red;
+    border: 1px solid #FFFFFF;
+    border-radius: 100%;
+    margin-left: -6px;
+}

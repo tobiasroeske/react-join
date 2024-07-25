@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from '../addTaskPage.module.css';
 import { Contact } from '../../shared/interfaces/contact.interface';
@@ -11,7 +11,6 @@ import { useFirestoreContext } from '../../shared/firestoreProvider';
 import { Task } from '../../shared/interfaces/task.interface';
 import { User } from 'firebase/auth';
 import classNames from 'classnames';
-import { useNavigate } from 'react-router-dom';
 
 type FormFields = {
     title: string;
@@ -21,10 +20,10 @@ type FormFields = {
 
 type AddTaskFormProps = {
     state: 'to-do' | 'in-progress' | 'await-feedback' | 'done',
-    taskCreated: () => void,
+    handleSubmitActions: () => void
 }
 
-function AddTaskForm({state, taskCreated}: AddTaskFormProps) {
+function AddTaskForm({state, handleSubmitActions}: AddTaskFormProps) {
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<FormFields>();
     const { user } = useAuthContext();
     const { addTask } = useFirestoreContext();
@@ -32,8 +31,6 @@ function AddTaskForm({state, taskCreated}: AddTaskFormProps) {
     const [priority, setPriority] = useState<string>('Medium');
     const [category, setCategory] = useState<string>('');
     const [subtasks, setSubtasks] = useState<string[]>([]);
-    const [taskstate, setTaskState] = useState<string>(state)
-    const navigate = useNavigate();
 
     function handleContactSelect(selectedContact: Contact) {
         setSelectedContacts(prevContacts => {
@@ -45,13 +42,11 @@ function AddTaskForm({state, taskCreated}: AddTaskFormProps) {
     }
 
     const onSubmit: SubmitHandler<FormFields> = async (data) => {
-        console.log(data);
         if (user) {
             let newTask = createTaskObject(data, user);
             await addTask(newTask!)
-            taskCreated();
             resetForm();
-            setTimeout(() => navigate('/board'), 1500)
+            handleSubmitActions();
         }
     }
 
@@ -73,7 +68,7 @@ function AddTaskForm({state, taskCreated}: AddTaskFormProps) {
                 priority: priority,
                 category: category,
                 subtasks: subtasks,
-                state: taskstate,
+                state: state,
             } as Task
         }
     }
@@ -87,6 +82,10 @@ function AddTaskForm({state, taskCreated}: AddTaskFormProps) {
     }
 
     const today = new Date().toISOString().split('T')[0];
+
+    useEffect(() => {
+        console.log(state)
+    },[])
 
     return (
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>

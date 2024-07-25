@@ -206,6 +206,7 @@ input:focus {
   right: 0;
   background-color: rgba(0,0,0, 0.15);
   overflow: hidden;
+  z-index: 10;
 }
 
 @keyframes s3 {

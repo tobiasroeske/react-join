@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import useContactInitials from '../../shared/hooks/useContactInitials';
 import { Contact } from '../../shared/interfaces/contact.interface';
 import styles from '../contactsPage.module.css'
