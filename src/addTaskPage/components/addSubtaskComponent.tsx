@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react';
 import styles from '../addTaskPage.module.css';
 
-interface AddSubtaskProps {
-    subtasks: string[];
-    setSubtasks: (subtasks: string[]) => void;
-}
+type AddSubtaskProps = {
+    subtasks: Subtask[];
+    setSubtasks: (subtasks: Subtask[]) => void;
+};
+
+type Subtask = {
+    title: string,
+    completed: boolean,
+};
 
 function AddSubtask({ subtasks, setSubtasks }: AddSubtaskProps) {
     const [inputValue, setInputValue] = useState<string>('');
@@ -29,7 +34,7 @@ function AddSubtask({ subtasks, setSubtasks }: AddSubtaskProps) {
 
     function handleEditSubtask(index: number) {
         setEditingSubtaskIndex(index);
-        setEditSubtaskValue(subtasks[index]);
+        setEditSubtaskValue(subtasks[index].title);
     }
 
     function handleSubtaskInput(event: React.ChangeEvent<HTMLInputElement>) {
@@ -38,7 +43,7 @@ function AddSubtask({ subtasks, setSubtasks }: AddSubtaskProps) {
 
     function handleSaveEdit(index: number) {
         const updatedSubtasks = subtasks.map((subtask, i) =>
-            i === index ? editSubtaskValue.trim() : subtask
+            i === index ? { ...subtask, title: editSubtaskValue.trim() } : subtask
         );
         setSubtasks(updatedSubtasks);
         setEditingSubtaskIndex(null);
@@ -54,7 +59,8 @@ function AddSubtask({ subtasks, setSubtasks }: AddSubtaskProps) {
 
     function addSubtask() {
         if (inputValue.trim()) {
-            setSubtasks([...subtasks, inputValue.trim()]);
+            const newSubtask: Subtask = { title: inputValue.trim(), completed: false };
+            setSubtasks([...subtasks, newSubtask]);
             resetInput();
         }
     }
@@ -75,7 +81,6 @@ function AddSubtask({ subtasks, setSubtasks }: AddSubtaskProps) {
                     value={inputValue}
                     onChange={handleChange}
                     onKeyDown={handleKeydown}
-                    
                 />
                 {inputSelected ? (
                     <div className={styles.addIconContainer}>
@@ -130,7 +135,7 @@ function AddSubtask({ subtasks, setSubtasks }: AddSubtaskProps) {
                             ) : (
                                 <li key={index} onClick={() => handleEditSubtask(index)}>
                                     <span className={styles.bullet}></span>
-                                    <span className={styles.content}>{subtask}</span>
+                                    <span className={styles.content}>{subtask.title}</span>
                                     <div className={styles.editSubtaskContainer}>
                                         <img
                                             src="./assets/icons/addTask_delete.png"

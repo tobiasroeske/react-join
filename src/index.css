@@ -185,6 +185,7 @@ input:focus {
   width: 100%;
   padding: 48px 64px;
   gap: 24px;
+  overflow: auto;
 }
 
 .contactPageContainer {
@@ -250,6 +251,12 @@ input:focus {
 
 *::-webkit-scrollbar-thumb:active {
   background-color: #29ABE2;
+}
+
+@media (max-height: 860px) {
+  .main-content {
+    padding: 40px 64px;
+  }
 }
 
 

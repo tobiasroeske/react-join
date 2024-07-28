@@ -1,5 +1,10 @@
 import { Contact } from "./contact.interface";
 
+type Subtask = {
+    title: string,
+    completed: boolean
+}
+
 export interface Task {
     creatorId: string;
     title: string;
@@ -8,6 +13,7 @@ export interface Task {
     assignedContacts: Contact[];
     priority: string;
     category: string | 'Technical Task' | 'User Story';
-    subtasks: string [];
-    state: 'to-do' | 'in-progress' | 'await-feedback' | 'done'
+    subtasks: Subtask [];
+    state: 'to-do' | 'in-progress' | 'await-feedback' | 'done';
+    id: string;
 }

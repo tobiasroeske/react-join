@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from '../addTaskPage.module.css';
 import { Contact } from '../../shared/interfaces/contact.interface';
@@ -16,21 +16,26 @@ type FormFields = {
     title: string;
     description: string;
     dueDate: number;
-}
+};
 
 type AddTaskFormProps = {
-    state: 'to-do' | 'in-progress' | 'await-feedback' | 'done',
-    handleSubmitActions: () => void
-}
+    state: 'to-do' | 'in-progress' | 'await-feedback' | 'done';
+    handleSubmitActions: () => void;
+};
 
-function AddTaskForm({state, handleSubmitActions}: AddTaskFormProps) {
+type Subtask = {
+    title: string,
+    completed: boolean,
+};
+
+function AddTaskForm({ state, handleSubmitActions }: AddTaskFormProps) {
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<FormFields>();
     const { user } = useAuthContext();
     const { addTask } = useFirestoreContext();
     const [selectedContacts, setSelectedContacts] = useState<Contact[]>([]);
     const [priority, setPriority] = useState<string>('Medium');
     const [category, setCategory] = useState<string>('');
-    const [subtasks, setSubtasks] = useState<string[]>([]);
+    const [subtasks, setSubtasks] = useState<Subtask[]>([]);
 
     function handleContactSelect(selectedContact: Contact) {
         setSelectedContacts(prevContacts => {
@@ -44,11 +49,11 @@ function AddTaskForm({state, handleSubmitActions}: AddTaskFormProps) {
     const onSubmit: SubmitHandler<FormFields> = async (data) => {
         if (user) {
             let newTask = createTaskObject(data, user);
-            await addTask(newTask!)
+            await addTask(newTask!);
             resetForm();
             handleSubmitActions();
         }
-    }
+    };
 
     function resetForm() {
         reset();
@@ -69,7 +74,7 @@ function AddTaskForm({state, handleSubmitActions}: AddTaskFormProps) {
                 category: category,
                 subtasks: subtasks,
                 state: state,
-            } as Task
+            } as Task;
         }
     }
 
@@ -82,10 +87,6 @@ function AddTaskForm({state, handleSubmitActions}: AddTaskFormProps) {
     }
 
     const today = new Date().toISOString().split('T')[0];
-
-    useEffect(() => {
-        console.log(state)
-    },[])
 
     return (
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -178,7 +179,7 @@ function AddTaskForm({state, handleSubmitActions}: AddTaskFormProps) {
                     <div className={styles.clearBtn}>
                         Clear <img src="/assets/icons/cancel_contacts.svg" alt="Clear" />
                     </div>
-                    <button type='submit' className={classNames(styles.submitBtn,{ [styles.disabledBtn] : isSubmitting})} disabled={isSubmitting}>
+                    <button type='submit' className={classNames(styles.submitBtn, { [styles.disabledBtn]: isSubmitting })} disabled={isSubmitting}>
                         Create Task <img src="/assets/icons/check_contacts.png" alt="Submit" />
                     </button>
                 </div>

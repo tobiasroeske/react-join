@@ -6,6 +6,7 @@ import AddTaskForm from "../../addTaskPage/components/addTaskFormComponent";
 import TaskColumn from "./taskColumnComponent";
 
 
+
 function Board() {
     const [popupState, setPopupState] = useState<string>("to-do");
     const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false);
