@@ -8,25 +8,27 @@ import classNames from "classnames";
 
 type AddContactSelectProps = {
     selectedContacts: Contact[],
-    handleContactSelect: (contact: Contact) => void
+    handleContactSelect: (contact: Contact, e: React.MouseEvent) => void,
+    showDropdown: boolean,
+    setShowDropdown: (show: boolean) => void
 };
 
-function AddContactSelect({ selectedContacts, handleContactSelect }: AddContactSelectProps) {
-    const [showDropdown, setShowDropdown] = useState<boolean>(false);
+function AddContactSelect({ selectedContacts, handleContactSelect, showDropdown, setShowDropdown }: AddContactSelectProps) {
     const [showContacts, setShowContacts] = useState<boolean>(false);
     let contacts = useContacts();
 
-    function toggleDropdown() {
+    function toggleDropdown(e: React.MouseEvent) {
+        e.stopPropagation();
         setShowDropdown(!showDropdown);
     }
 
     function toggleExtraContactPopup() {
-        setShowContacts(!showContacts)
+        setShowContacts(!showContacts);
     }
 
     return (
         <>
-            <div className='inputContainer' >
+            <div className='inputContainer'>
                 <label htmlFor="assignedContacts" className={styles.label}>Assigned to</label>
                 <input
                     type="text"
@@ -35,7 +37,7 @@ function AddContactSelect({ selectedContacts, handleContactSelect }: AddContactS
                     placeholder="Select contacts to assign"
                     onClick={toggleDropdown}
                     readOnly
-                    style={showDropdown ? {'borderBottomLeftRadius': 0, 'borderBottomRightRadius': 0} : {}}
+                    style={showDropdown ? { 'borderBottomLeftRadius': 0, 'borderBottomRightRadius': 0 } : {}}
                 />
                 {showDropdown ? (
                     <img src="/assets/icons/arrow_drop_down_close.svg" className={styles.dropwArrow} alt="" />
@@ -64,7 +66,7 @@ function AddContactSelect({ selectedContacts, handleContactSelect }: AddContactS
                             <div className={classNames(styles.initials, styles.extra)} onMouseEnter={toggleExtraContactPopup} onMouseLeave={toggleExtraContactPopup}>
                                 +{selectedContacts.length - 4}
                             </div>
-                            <div className={styles.extraContacts} style={showContacts ? {opacity: '1'}: {opacity: ''}}>
+                            <div className={styles.extraContacts} style={showContacts ? { opacity: '1' } : { opacity: '' }}>
                                 {selectedContacts.map((contact, index) =>
                                     index > 3 && (
                                         <div key={contact.id} className={styles.initials} style={{ backgroundColor: contact.color }}>

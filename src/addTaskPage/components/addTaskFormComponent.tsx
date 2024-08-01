@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from '../addTaskPage.module.css';
 import { Contact } from '../../shared/interfaces/contact.interface';
@@ -24,6 +24,7 @@ type AddTaskFormProps = {
 };
 
 type Subtask = {
+    id: string,
     title: string,
     completed: boolean,
 };
@@ -37,7 +38,23 @@ function AddTaskForm({ state, handleSubmitActions }: AddTaskFormProps) {
     const [category, setCategory] = useState<string>('');
     const [subtasks, setSubtasks] = useState<Subtask[]>([]);
 
-    function handleContactSelect(selectedContact: Contact) {
+    const [showContactDropdown, setShowContactDropdown] = useState<boolean>(false);
+    const [showCategoryDropdown, setShowCategoryDropdown] = useState<boolean>(false);
+
+    useEffect(() => {
+        function handleClickOutside() {
+            setShowContactDropdown(false);
+            setShowCategoryDropdown(false);
+        }
+
+        document.addEventListener('click', handleClickOutside);
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, []);
+
+    function handleContactSelect(selectedContact: Contact, e: React.MouseEvent) {
+        e.stopPropagation();
         setSelectedContacts(prevContacts => {
             const contactIndex = prevContacts.findIndex(contact => contact.id === selectedContact.id);
             return contactIndex === -1
@@ -121,6 +138,8 @@ function AddTaskForm({ state, handleSubmitActions }: AddTaskFormProps) {
                     <AddContactSelect
                         selectedContacts={selectedContacts}
                         handleContactSelect={handleContactSelect}
+                        showDropdown={showContactDropdown}
+                        setShowDropdown={setShowContactDropdown}
                     />
                 </div>
                 <div className={styles.seperator}></div>
@@ -167,6 +186,8 @@ function AddTaskForm({ state, handleSubmitActions }: AddTaskFormProps) {
                     <SelectCategory
                         selectedCategory={category}
                         onCategorySelect={handleCategorySelect}
+                        showDropdown={showCategoryDropdown}
+                        setShowDropdown={setShowCategoryDropdown}
                     />
                     <AddSubtask subtasks={subtasks} setSubtasks={setSubtasks} />
                 </div>

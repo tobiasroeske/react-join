@@ -5,7 +5,7 @@ import styles from '../addTaskPage.module.css';
 
 type DropdownProps = {
     contacts: Contact[],
-    onContactSelect: (contact: Contact) => void,
+    onContactSelect: (contact: Contact, e: React.MouseEvent) => void,
     selectedContacts: Contact [],
 };
 
@@ -22,7 +22,7 @@ function Dropdown({ contacts, onContactSelect, selectedContacts }: DropdownProps
                     key={contact.id}
                     className={styles.contactBox}
                     style={contactExists(contact) ? { backgroundColor: '#2A3647', color: 'white' } : { backgroundColor: '' }}
-                    onClick={() => onContactSelect(contact)}
+                    onClick={(e) => onContactSelect(contact, e)}
                 >
                     <div className={styles.initials} style={{ backgroundColor: contact.color }}>
                         {getInitials(contact.name)}

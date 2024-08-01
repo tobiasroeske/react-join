@@ -48,14 +48,17 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     async function loginUser(email: string, password: string) {
         setLoading(true);
-        try {
-            return await signInWithEmailAndPassword(auth, email, password);
-        } catch (error) {
-            console.error('Error logging in: ', error);
-            throw error;
-        } finally {
-            setLoading(false);
-        }
+        let response = await signInWithEmailAndPassword(auth, email, password)
+        setLoading(false);
+        return response;
+        // try {
+        //     return await signInWithEmailAndPassword(auth, email, password);
+        // } catch (error) {
+        //     console.error('Error logging in: ', error);
+        //     throw error;
+        // } finally {
+        //     setLoading(false);
+        // }
     }
 
     async function logoutUser() {

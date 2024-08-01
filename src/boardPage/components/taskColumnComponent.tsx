@@ -1,39 +1,58 @@
 import { useEffect, useState } from "react";
-import useTasks from "../../shared/hooks/useTasks";
-import styles from "../boardPage.module.css"
+import { useDrop } from 'react-dnd';
+import styles from "../boardPage.module.css";
 import AddTaskButton from "./addTaskButtonComponent";
 import { Task } from "../../shared/interfaces/task.interface";
 import TaskContainer from "./taskContainerComponent";
-
 
 type TaskColumnProps = {
     title: string,
     state: string,
     setPopupState: (state: string) => void,
+    setTaskForDetailView: (task: Task) => void,
+    tasks: Task[],
+    onTaskDrop: (task: Task, newState: string) => void,
 }
 
-function TaskColumn({ title, state, setPopupState }: TaskColumnProps) {
-    const [loadedTasks, setLoadedTasks] = useState<Task[]>([])
-    let tasks = useTasks();
+function TaskColumn({ title, state, setPopupState, setTaskForDetailView, tasks, onTaskDrop }: TaskColumnProps) {
+    const [loadedTasks, setLoadedTasks] = useState<Task[]>([]);
 
     useEffect(() => {
         let filteredTasks = tasks.filter(task => task.state === state);
         setLoadedTasks(filteredTasks);
+    }, [tasks, state]);
 
-    }, [tasks, state])
+    const [{ isOver }, drop] = useDrop({
+        accept: 'TASK',
+        drop: (item: Task) => {
+            onTaskDrop(item, state);
+        },
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver(),
+        }),
+    });
 
     return (
-        <div className={styles.taskColumn}>
+        <div
+            className={`${styles.taskColumn} ${isOver ? styles.dragging : ''}`} 
+            ref={drop} 
+            
+        >
             <div className={styles.columnHeader}>
                 <h3>{title}</h3>
                 <AddTaskButton setPopupState={setPopupState} state={state} />
             </div>
-
+            {loadedTasks.length === 0 && <div className={styles.NoTasksContainer}>
+                No tasks {state.replace('-', ' ')}
+            </div>}
             <div className={styles.tasks}>
-                {loadedTasks.map((task, index) => 
-                    <TaskContainer key={task.id || index} task={task} />
+                {loadedTasks.map((task, index) =>
+                    <TaskContainer
+                        key={task.id || index}
+                        task={task}
+                        setTaskIndex={() => setTaskForDetailView(task)}
+                    />
                 )}
-
             </div>
         </div>
     );

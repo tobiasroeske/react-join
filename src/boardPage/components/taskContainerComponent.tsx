@@ -1,24 +1,40 @@
 import { useState } from "react";
+import { useDrag } from 'react-dnd';
 import { Task } from "../../shared/interfaces/task.interface";
 import getInitials from "../../shared/utils/getInitials";
 import truncateDescription from "../../shared/utils/truncateDescription";
-import styles from "../boardPage.module.css"
+import styles from "../boardPage.module.css";
 import classNames from "classnames";
 import checkPriority from "../../shared/utils/checkPriority";
 
 type TaskContainerProps = {
     task: Task,
+    setTaskIndex: () => void,
 }
 
-function TaskContainer({ task }: TaskContainerProps) {
+function TaskContainer({ task, setTaskIndex }: TaskContainerProps) {
     const [showContacts, setShowContacts] = useState<boolean>(false);
 
+    const [ {isDragging}, drag] = useDrag({
+        type: 'TASK',
+        item: task,
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging()
+        })
+    });
+
     function toggleExtraContactPopup() {
-        setShowContacts(!showContacts)
+        setShowContacts(!showContacts);
     }
-    return (
-        <div className={styles.task}>
-            <div className={styles.category} style={task.category === 'Technical Task' ? {backgroundColor: '#1FD7C1'} : {}}>
+
+    function getCompleteSubtaskAmount() {
+        let completeSubtasks = task.subtasks.filter(subtask => subtask.completed);
+        return completeSubtasks.length;
+    }
+
+    return  (
+        <div className={styles.task} onClick={setTaskIndex} ref={drag} style={isDragging ? {transform: 'rotate(-8deg)'} : {}}>
+            <div className={styles.category} style={task.category === 'Technical Task' ? { backgroundColor: '#1FD7C1' } : {}}>
                 {task.category}
             </div>
             <div className={styles.titleDescription}>
@@ -28,31 +44,33 @@ function TaskContainer({ task }: TaskContainerProps) {
                 </div>
             </div>
 
-
             <div className={styles.subtasksProgress}>
                 <div className={styles.progressbar}>
-                    <div className={styles.progressbarFilled}>
-
-                    </div>
+                    <div className={styles.progressbarFilled} 
+                    style={{
+                        width: task.subtasks.length > 0 ? `${(getCompleteSubtaskAmount() / task.subtasks.length) * 100}%` : 0,
+                        backgroundColor: getCompleteSubtaskAmount() === task.subtasks.length ? '#7AE229' : undefined
+                    }}
+                    ></div>
                 </div>
-                <span>0/{task.subtasks.length} Subtasks</span>
+                <span>{getCompleteSubtaskAmount()}/{task.subtasks.length} Subtasks</span>
             </div>
 
             <div className={styles.contactPriorityContainer}>
                 <div className={styles.contactIcons}>
                     {task.assignedContacts.map((contact, index) =>
-                        index <= 3 && ( 
-                        <div key={contact.id} className={styles.contactIcon} style={{backgroundColor: contact.color}}>
-                            {getInitials(contact.name)}
-                        </div>
-                    ))}
-
+                        index <= 3 && (
+                            <div key={contact.id} className={styles.contactIcon} style={{ backgroundColor: contact.color }}>
+                                {getInitials(contact.name)}
+                            </div>
+                        )
+                    )}
                     {task.assignedContacts.length > 4 && (
                         <>
                             <div className={classNames(styles.initials, styles.extra)} onMouseEnter={toggleExtraContactPopup} onMouseLeave={toggleExtraContactPopup}>
                                 +{task.assignedContacts.length - 4}
                             </div>
-                            <div className={styles.extraContacts} style={showContacts ? {opacity: '1'}: {opacity: ''}}>
+                            <div className={styles.extraContacts} style={showContacts ? { opacity: '1' } : { opacity: '' }}>
                                 {task.assignedContacts.map((contact, index) =>
                                     index > 3 && (
                                         <div key={contact.id} className={styles.initials} style={{ backgroundColor: contact.color }}>
@@ -64,9 +82,8 @@ function TaskContainer({ task }: TaskContainerProps) {
                         </>
                     )}
                 </div>
-                <img src={checkPriority(task)} alt="priority_icon"/>
+                <img src={checkPriority(task)} alt="priority_icon" />
             </div>
-
         </div>
     );
 }

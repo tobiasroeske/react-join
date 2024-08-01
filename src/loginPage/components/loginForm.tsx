@@ -29,13 +29,15 @@ export default function LoginForm() {
         }
     }
 
-    function handleError(error:unknown) {
+    function handleError(error: unknown) {
         if (error instanceof FirebaseError) {
-            if (error.code === 'auth/invalid-credential') {
+            if (error.code === 'auth/invalid-credential' || error.code ==='auth/invalid-email') {
                 setErrorMessage(true);
             } else {
                 console.error("Error while logging in", error);
             }
+        } else {
+            console.error("Unexpected error", error);
         }
     }
 
@@ -43,16 +45,12 @@ export default function LoginForm() {
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
             <div className="inputContainer">
                 <label htmlFor="email" />
-                <input {... register('email', {
-                    required: "Email is required",
-                })} type="email" id="email" name='email' placeholder='Email' />
+                <input {... register('email')} type="email" id="email" name='email' placeholder='Email' />
                 <img src="/assets/icons/mail.png" alt="" />
             </div>
             <div className="inputContainer">
                 <label htmlFor="passwordInput" />
-                <input {... register('password', {
-                    required: "Password is required",
-                })} type="password" id="passwordInput" name="password" placeholder='Password' />
+                <input {... register('password')} type="password" id="passwordInput" name="password" placeholder='Password' />
                 <img src="/assets/icons/lock.png" alt="" />
                 {errorMessage && <span className='error-message'>Email or password do not match</span>}
             </div>

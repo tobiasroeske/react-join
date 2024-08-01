@@ -4,54 +4,102 @@ import styles from "../boardPage.module.css";
 import Popup from "./popupComponent";
 import AddTaskForm from "../../addTaskPage/components/addTaskFormComponent";
 import TaskColumn from "./taskColumnComponent";
-
-
+import TaskDetailView from "./taskDetailViewComponent";
+import { Task } from "../../shared/interfaces/task.interface";
+import useTasks from "../../shared/hooks/useTasks";
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
+import { useFirestoreContext } from "../../shared/firestoreProvider";
 
 function Board() {
+    const { updateTask } = useFirestoreContext();
     const [popupState, setPopupState] = useState<string>("to-do");
     const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false);
     const [isTaskCreated, setIsTaskCreated] = useState<boolean>(false);
+    const [isTaskDetailVisible, setIsTaskDetailVisible] = useState<boolean>(false);
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+    const [tasks, setTasks] = useState<Task[]>(useTasks());
 
-    const handlePopupStateChange = (state: string) => {
+    function handlePopupStateChange(state: string) {
         setPopupState(state);
         togglePopupVisibility();
-    };
+    }
 
-    const togglePopupVisibility = () => {
+    function handleSearchResult(tasks: Task[]) {
+        setTasks(tasks);
+    }
+
+    function togglePopupVisibility() {
         setIsPopupVisible((prev) => !prev);
-    };
+    }
 
-    const handleTaskCreation = () => {
+    function handleTaskSelection(task: Task) {
+        setSelectedTask(task);
+        toggleTaskDetailPreview();
+    }
+
+    function toggleTaskDetailPreview() {
+        setIsTaskDetailVisible((prev) => !prev);
+    }
+
+    function handleTaskCreation() {
         setIsTaskCreated(true);
         setTimeout(() => {
             setIsTaskCreated(false);
             togglePopupVisibility();
         }, 1500);
-    };
+    }
+
+    async function handleTaskDrop(task: Task, newState: string) {
+        setTasks(prevTasks => prevTasks.map(t => 
+            t.id === task.id ? {...t, state: newState } : t
+        ));
+        await updateTask(task.id, {...task, state: newState} as Task);
+    }
 
     return (
-        <div className={styles.BoardContent}>
-            <Headline setPopupState={handlePopupStateChange} />
-            {isPopupVisible && (
-                <Popup
-                    showPopup={isPopupVisible}
-                    togglePopup={togglePopupVisibility}
-                    Component={AddTaskForm}
-                    taskCreated={isTaskCreated}
-                    componentProps={{
-                        state: popupState,
-                        handleSubmitActions: handleTaskCreation,
-                    }}
-                />
-            )}
-        <div className={styles.columnContainer}>
-            <TaskColumn setPopupState={handlePopupStateChange} state={'to-do'} title={'To do'}/>
-            <TaskColumn setPopupState={handlePopupStateChange} state={'in-progress'} title={'In progress'}/>
-            <TaskColumn setPopupState={handlePopupStateChange} state={'await-feedback'} title={'Await feedback'}/>
-            <TaskColumn setPopupState={handlePopupStateChange} state={'done'} title={'Done'}/>
-        </div>
-
-        </div>
+        <DndProvider backend={HTML5Backend}>
+            <div className={styles.BoardContent}>
+                <Headline setPopupState={handlePopupStateChange} getSearchedTasks={handleSearchResult} />
+                {isPopupVisible && (
+                    <Popup
+                        showPopup={isPopupVisible}
+                        togglePopup={togglePopupVisibility}
+                        Component={AddTaskForm}
+                        taskCreated={isTaskCreated}
+                        componentProps={{
+                            state: popupState,
+                            handleSubmitActions: handleTaskCreation,
+                        }}
+                    />
+                )}
+                {isTaskDetailVisible && selectedTask && (
+                    <Popup
+                        showPopup={isTaskDetailVisible}
+                        togglePopup={toggleTaskDetailPreview}
+                        Component={TaskDetailView}
+                        taskCreated={false}
+                        componentProps={{
+                            task: selectedTask,
+                            handleTaskDetailVisability: toggleTaskDetailPreview,
+                        }}
+                    />
+                )}
+                <div className={styles.columnContainer}>
+                    {['to-do', 'in-progress', 'await-feedback', 'done'].map(state => (
+                        <TaskColumn
+                            key={state}
+                            setTaskForDetailView={handleTaskSelection}
+                            setPopupState={handlePopupStateChange}
+                            state={state}
+                            title={state.charAt(0).toUpperCase() + state.slice(1).replace('-', ' ')}
+                            tasks={tasks}
+                            onTaskDrop={handleTaskDrop}
+                        />
+                    ))}
+                </div>
+            </div>
+        </DndProvider>
     );
 }
 

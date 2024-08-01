@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import styles from '../addTaskPage.module.css';
 
 type AddSubtaskProps = {
@@ -7,6 +8,7 @@ type AddSubtaskProps = {
 };
 
 type Subtask = {
+    id: string,
     title: string,
     completed: boolean,
 };
@@ -15,7 +17,7 @@ function AddSubtask({ subtasks, setSubtasks }: AddSubtaskProps) {
     const [inputValue, setInputValue] = useState<string>('');
     const [editSubtaskValue, setEditSubtaskValue] = useState<string>('');
     const [inputSelected, setInputSelected] = useState<boolean>(false);
-    const [editingSubtaskIndex, setEditingSubtaskIndex] = useState<number | null>(null);
+    const [editingSubtaskId, setEditingSubtaskId] = useState<string | null>(null);
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         setInputValue(event.target.value);
@@ -32,34 +34,38 @@ function AddSubtask({ subtasks, setSubtasks }: AddSubtaskProps) {
         }
     }
 
-    function handleEditSubtask(index: number) {
-        setEditingSubtaskIndex(index);
-        setEditSubtaskValue(subtasks[index].title);
+    function handleEditSubtask(id: string) {
+        setEditingSubtaskId(id);
+        const subtask = subtasks.find(subtask => subtask.id === id);
+        if (subtask) {
+            setEditSubtaskValue(subtask.title);
+        }
     }
 
     function handleSubtaskInput(event: React.ChangeEvent<HTMLInputElement>) {
         setEditSubtaskValue(event.target.value);
     }
 
-    function handleSaveEdit(index: number) {
-        const updatedSubtasks = subtasks.map((subtask, i) =>
-            i === index ? { ...subtask, title: editSubtaskValue.trim() } : subtask
+    function handleSaveEdit(id: string) {
+        const updatedSubtasks = subtasks.map((subtask) =>
+            subtask.id === id ? { ...subtask, title: editSubtaskValue.trim() } : subtask
         );
         setSubtasks(updatedSubtasks);
-        setEditingSubtaskIndex(null);
+        setEditingSubtaskId(null);
         setEditSubtaskValue('');
     }
 
-    function handleDeleteSubtask(index: number) {
-        const updatedSubtasks = subtasks.filter((_, i) => i !== index);
+    function handleDeleteSubtask(id: string) {
+        const updatedSubtasks = subtasks.filter(subtask => subtask.id !== id);
         setSubtasks(updatedSubtasks);
-        setEditingSubtaskIndex(null);
+        setEditingSubtaskId(null);
         setEditSubtaskValue('');
+        setInputValue('');
     }
 
     function addSubtask() {
         if (inputValue.trim()) {
-            const newSubtask: Subtask = { title: inputValue.trim(), completed: false };
+            const newSubtask: Subtask = { id: uuidv4(), title: inputValue.trim(), completed: false };
             setSubtasks([...subtasks, newSubtask]);
             resetInput();
         }
@@ -105,15 +111,15 @@ function AddSubtask({ subtasks, setSubtasks }: AddSubtaskProps) {
             {subtasks.length > 0 && (
                 <div className={styles.subtaskContainer}>
                     <ul className={styles.styledList}>
-                        {subtasks.map((subtask, index) => (
-                            editingSubtaskIndex === index ? (
-                                <li key={index} className={styles.editingItem}>
+                        {subtasks.map((subtask) => (
+                            editingSubtaskId === subtask.id ? (
+                                <li key={subtask.id} className={styles.editingItem}>
                                     <input
                                         type="text"
                                         value={editSubtaskValue}
                                         onChange={handleSubtaskInput}
-                                        onBlur={() => handleSaveEdit(index)}
-                                        onKeyDown={(e) => e.key === 'Enter' && handleSaveEdit(index)}
+                                        onBlur={() => handleSaveEdit(subtask.id)}
+                                        onKeyDown={(e) => e.key === 'Enter' && handleSaveEdit(subtask.id)}
                                         autoFocus
                                     />
                                     <div className={styles.editSubtaskContainer}>
@@ -121,19 +127,19 @@ function AddSubtask({ subtasks, setSubtasks }: AddSubtaskProps) {
                                             src="./assets/icons/addTask_delete.png"
                                             alt="Delete"
                                             className={styles.icon}
-                                            onClick={() => handleDeleteSubtask(index)}
+                                            onClick={() => handleDeleteSubtask(subtask.id)}
                                         />
                                         <div className={styles.seperatorSmall}></div>
                                         <img
                                             src="./assets/icons/addTask_check.svg"
                                             alt="Save"
                                             className={styles.icon}
-                                            onClick={() => handleSaveEdit(index)}
+                                            onClick={() => handleSaveEdit(subtask.id)}
                                         />
                                     </div>
                                 </li>
                             ) : (
-                                <li key={index} onClick={() => handleEditSubtask(index)}>
+                                <li key={subtask.id} onClick={() => handleEditSubtask(subtask.id)}>
                                     <span className={styles.bullet}></span>
                                     <span className={styles.content}>{subtask.title}</span>
                                     <div className={styles.editSubtaskContainer}>
@@ -141,7 +147,7 @@ function AddSubtask({ subtasks, setSubtasks }: AddSubtaskProps) {
                                             src="./assets/icons/addTask_delete.png"
                                             alt="Delete"
                                             className={styles.icon}
-                                            onClick={() => handleDeleteSubtask(index)}
+                                            onClick={() => handleDeleteSubtask(subtask.id)}
                                         />
                                         <div className={styles.seperatorSmall}></div>
                                         <img

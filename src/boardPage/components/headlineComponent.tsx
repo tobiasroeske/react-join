@@ -1,11 +1,13 @@
+import { Task } from '../../shared/interfaces/task.interface';
 import styles from '../boardPage.module.css';
 import SearchInput from './searchInputComponent';
 
 type HeadlineProps = {
     setPopupState: (state: string) => void,
+    getSearchedTasks: (tasks: Task []) => void,
 }
 
-function Headline({setPopupState}: HeadlineProps) {
+function Headline({setPopupState, getSearchedTasks}: HeadlineProps) {
 
     function handlePopupState() {
         setPopupState('to-do');
@@ -14,7 +16,7 @@ function Headline({setPopupState}: HeadlineProps) {
         <div className={styles.headline}>
             <h1>Board</h1>
             <div className={styles.searchContainer}>
-                <SearchInput />
+                <SearchInput getSearchedTasks={getSearchedTasks} />
                 <button className={styles.addTaskBtn} onClick={handlePopupState}>Add task <img src="./assets/icons/addTask_board.png" alt="" /></button>
             </div>
         </div>

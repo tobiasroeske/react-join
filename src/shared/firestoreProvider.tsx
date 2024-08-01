@@ -12,6 +12,8 @@ interface FirestoreContextType {
     editContact: (editedContact: Contact) => Promise<void>
     deleteContact: (contactId: string) => Promise<void>
     addTask: (newTask: Task) => Promise<void>
+    deleteTask: (taskId: string) => Promise<void>
+    updateTask: (taskId:string, updatedTask: Task) => Promise<void>
 }
 
 interface FirestoreProdiverProps {
@@ -79,6 +81,22 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
         }
     }
 
+    async function deleteTask(taskId: string) {
+        try {
+            await deleteDoc(getDocRef('tasks', taskId))
+        } catch (error) {
+            console.error('Error deleting task', error)
+        }
+    }
+
+    async function updateTask(taskId: string, updatedTask: Task) {
+        try {
+            await updateDoc(getDocRef('tasks', taskId), {...updatedTask})
+        } catch (error) {
+            console.error('Error updating task', error)
+        }
+    }
+
     async function updateUser(userId: string, user: {}) {
         let userRef = getDocRef('users', userId);
         let userToAdd = setUserObject(user, userId);
@@ -103,7 +121,9 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
         addContact,
         editContact,
         deleteContact,
-        addTask
+        addTask,
+        deleteTask,
+        updateTask,
     }
 
     return (
