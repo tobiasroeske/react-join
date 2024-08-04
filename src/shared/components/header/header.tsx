@@ -18,13 +18,14 @@ export default function Header() {
         <>
             <header className={styles.header}>
                 <h1 className={styles.headline}>Kanban Project Management Tool</h1>
+                <img src="./assets/img/logo_login.png" alt="" className={styles.logoMobile}/>
                 <div className={styles.profileContainer} onClick={toggleProfileDialog}>
                     <img src="/assets/icons/help.png" alt="" />
                     <div className={styles.initials}>
                         {initials}
                     </div>
                 </div>
-                {showProfileDialog && <ProfileDialog/>}
+                {showProfileDialog && <ProfileDialog />}
         
             </header>
         </>

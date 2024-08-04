@@ -8,8 +8,13 @@ import TaskDetailView from "./taskDetailViewComponent";
 import { Task } from "../../shared/interfaces/task.interface";
 import useTasks from "../../shared/hooks/useTasks";
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { TouchBackend } from "react-dnd-touch-backend";
 import { DndProvider } from 'react-dnd';
 import { useFirestoreContext } from "../../shared/firestoreProvider";
+
+function isTouchDevice() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+}
 
 function Board() {
     const { updateTask } = useFirestoreContext();
@@ -58,7 +63,7 @@ function Board() {
     }
 
     return (
-        <DndProvider backend={HTML5Backend}>
+        <DndProvider backend={isTouchDevice() ?  TouchBackend : HTML5Backend}>
             <div className={styles.BoardContent}>
                 <Headline setPopupState={handlePopupStateChange} getSearchedTasks={handleSearchResult} />
                 {isPopupVisible && (
@@ -86,7 +91,7 @@ function Board() {
                     />
                 )}
                 <div className={styles.columnContainer}>
-                    {['to-do', 'in-progress', 'await-feedback', 'done'].map(state => (
+                    {['to-do', 'in-progress', 'await-feedback', 'done'].map((state, index) => (
                         <TaskColumn
                             key={state}
                             setTaskForDetailView={handleTaskSelection}
@@ -95,6 +100,7 @@ function Board() {
                             title={state.charAt(0).toUpperCase() + state.slice(1).replace('-', ' ')}
                             tasks={tasks}
                             onTaskDrop={handleTaskDrop}
+                            lastColumn={index === 3}
                         />
                     ))}
                 </div>

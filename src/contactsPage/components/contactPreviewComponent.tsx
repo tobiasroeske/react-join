@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { Contact } from '../../shared/interfaces/contact.interface';
 import styles from '../contactsPage.module.css'

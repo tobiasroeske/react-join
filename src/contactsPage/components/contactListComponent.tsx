@@ -5,9 +5,12 @@ import { Contact } from '../../shared/interfaces/contact.interface';
 import useContacts from '../../shared/hooks/useContacts';
 
 
-type ContactListProps = { onContactSelect: (contact: Contact) => void }
+type ContactListProps = { 
+    onContactSelect: (contact: Contact) => void,
+    showContact: () => void, 
+}
 
-function ContactList({ onContactSelect }: ContactListProps) {
+function ContactList({ onContactSelect, showContact }: ContactListProps) {
     const [initials, setInitials] = useState<string[]>([]);
     const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
     let contacts = useContacts()
@@ -34,6 +37,7 @@ function ContactList({ onContactSelect }: ContactListProps) {
                                 contact={contact} 
                                 onContactSelect={() => handleContactSelect(contact)} 
                                 isSelected={selectedContact === contact}
+                                showContact={showContact}
                             />
                         </React.Fragment>
                     )}

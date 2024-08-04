@@ -9,6 +9,11 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #2A3647;
+}
+
+#root {
+  background-color: #2A3647;
 }
 
 body {
@@ -216,11 +221,26 @@ input:focus {
   z-index: 10;
 }
 
+.warning {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #2A3647;
+  color: white;
+  text-align: center;
+}
+
+.warning h1 {
+  font-size: 41px;
+}
+
 .intro-container {
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
+  max-width: 1920px;
   width: 100%;
   height: 100vh;
   z-index: 1;
@@ -238,6 +258,16 @@ input:focus {
   animation: logoAnimation .5s .5s ease-in-out forwards;
 }
 
+.intro-logo-mobile {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100.03px;
+  height: 121.97px;
+  transform: translate(-50%, -50%);
+  animation: logoAnimationMobile .5s .5s ease-in-out forwards;
+}
+
 @keyframes logoAnimation {
   to {
     top: 80px;
@@ -248,9 +278,41 @@ input:focus {
   }
 }
 
+@keyframes logoAnimationTablet {
+  to {
+    top: 24px;
+    left: 24px;
+    height: 121.27px;
+    width: 100px;
+    transform: translate(0,0);
+  }
+}
+
+@keyframes logoAnimationMobile {
+  to {
+    top: 12px;
+    left: 24px;
+    width: 64px;
+    height: 78.03px;
+    transform: translate(0,0);
+  }
+}
+
 @keyframes introContainerAnimation {
   to {
     display: none;
+  }
+}
+
+@keyframes introContainerAnimationMobile {
+  0% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 0;
+  }
+  100% {
+    display: none
   }
 }
 
@@ -299,11 +361,106 @@ input:focus {
   background-color: #29ABE2;
 }
 
-@media (max-height: 860px) {
+@media (max-height: 860px)  {
   .main-content {
     padding: 40px 64px;
   }
 }
+
+@media (max-height: 830px) {
+  .backArrow {
+    width: 24px;
+    height: 24px;
+    top: 48px !important;
+  }
+}
+
+@media (max-width: 445px) and (max-height: 700px) {
+  .loginBtn {
+    width: 100%;
+  }
+
+  .disabled-btn {
+    width: 100%;
+  }
+
+  .footer {
+    position: static;
+    padding-bottom: 12px;
+  }
+
+  .backArrow {
+    top: 32px !important
+  }
+}
+
+@media (max-width: 950px) {
+  .intro-logo {
+    animation: logoAnimationTablet .5s .5s ease-in-out forwards;
+  }
+}
+
+@media (max-width: 930px) {
+  .main-content {
+    padding: 24px 48px;
+    gap: 18px;
+  }
+}
+
+@media (max-width: 740px) {
+  .main-content {
+    justify-content: flex-start;
+    padding: 32px 48px;
+  }
+}
+
+@media (max-width: 450px) {
+  .main-content {
+    padding: 20px 16px;
+  }
+
+  .inputContainer > input,
+  .inputContainer > textarea {
+    padding: 10px 21px;
+    font-size: 16px;
+  }
+
+  .inputContainer > input::placeholder,
+  .inputContainer > textarea::placeholder {
+    font-size: 16px;
+  }
+
+  .error-message {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 445px) {
+  .intro-logo {
+    display: none;
+  }
+
+  .intro-container {
+    animation: introContainerAnimationMobile .1s 1s forwards ease-in-out
+  }
+
+  .loginBtn {
+    font-size: 18px;
+    padding: 10px 24px;
+    width: 100%;
+  }
+
+  .backArrow {
+    left: 24px !important; 
+    top: 48px !important;
+  }
+
+  .checkboxContainer {
+    padding-left: 32px;
+  }
+}
+
+
 
 
 /* inter-100 - latin */

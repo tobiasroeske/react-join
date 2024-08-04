@@ -63,7 +63,11 @@ function AddContactSelect({ selectedContacts, handleContactSelect, showDropdown,
                     )}
                     {selectedContacts.length > 4 && (
                         <>
-                            <div className={classNames(styles.initials, styles.extra)} onMouseEnter={toggleExtraContactPopup} onMouseLeave={toggleExtraContactPopup}>
+                            <div
+                                className={classNames(styles.initials, styles.extra)}
+                                onMouseEnter={toggleExtraContactPopup}
+                                onMouseLeave={toggleExtraContactPopup}
+                                onTouchStart={toggleExtraContactPopup}>
                                 +{selectedContacts.length - 4}
                             </div>
                             <div className={styles.extraContacts} style={showContacts ? { opacity: '1' } : { opacity: '' }}>

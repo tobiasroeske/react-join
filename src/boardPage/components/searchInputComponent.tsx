@@ -1,6 +1,8 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import useTasks from "../../shared/hooks/useTasks";
 import { Task } from "../../shared/interfaces/task.interface";
+import classNames from "classnames";
+import styles from "../boardPage.module.css"
 
 type SearchInputProps = {
     getSearchedTasks: (tasks: Task[]) => void;
@@ -29,7 +31,7 @@ function SearchInput({ getSearchedTasks }: SearchInputProps) {
     }, [tasks])
 
     return (
-        <div className="inputContainer">
+        <div className={classNames("inputContainer", styles.searchInput)}>
             <label htmlFor="searchInput" />
             <input
                 type="text"
@@ -39,7 +41,7 @@ function SearchInput({ getSearchedTasks }: SearchInputProps) {
                 value={inputValue}
                 onChange={handleInputChange}
             />
-            <img src="/assets/icons/search.png" alt="Search Icon" />
+            <img src="/assets/icons/search.png" alt="Search Icon" className={styles.searchIcon} />
         </div>
     );
 }

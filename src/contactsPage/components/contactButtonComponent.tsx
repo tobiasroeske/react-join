@@ -5,14 +5,20 @@ import styles from '../contactsPage.module.css'
 type ContactButtonProps = {
     contact: Contact,
     onContactSelect: () => void,
-    isSelected: boolean
+    isSelected: boolean,
+    showContact: () => void,
 }
 
-function ContactButton({ contact, onContactSelect, isSelected }: ContactButtonProps) {
+function ContactButton({ contact, onContactSelect, isSelected, showContact }: ContactButtonProps) {
     let initials = useContactInitials(contact)
+
+    function handleClick() {
+        onContactSelect();
+        showContact();
+    }
     
     return ( 
-        <div className={styles.contactButton} onClick={onContactSelect} style={isSelected ? {backgroundColor: '#2A3647', color: 'white'} : {backgroundColor: ''}}>
+        <div className={styles.contactButton} onClick={handleClick} style={isSelected ? {backgroundColor: '#2A3647', color: 'white'} : {backgroundColor: ''}}>
             <div className={styles.initials} style={{backgroundColor: contact.color}}>
                 {initials}
             </div>

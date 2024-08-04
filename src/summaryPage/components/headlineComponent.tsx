@@ -6,6 +6,7 @@ function Headline() {
             <h1>Join 360</h1>
             <div className={styles.seperator}></div>
             <h3>Key Metrics at a Glance</h3>
+            <div className={styles.verticalUnderline}></div>
         </div>
     );
 }

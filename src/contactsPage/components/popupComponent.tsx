@@ -1,4 +1,3 @@
-
 import { Contact } from '../../shared/interfaces/contact.interface';
 import AddContactDialog from './addContactDialog';
 import EditContactComponent from './editContactDialog';

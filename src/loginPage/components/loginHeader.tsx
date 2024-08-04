@@ -1,14 +1,16 @@
-import { Link } from 'react-router-dom';
 import styles from '../loginPage.module.css';
+import SignUpContainer from './signUpContainerComponent';
 
-export default function LoginHeader() {
+type LoginHeaderProps = {
+    isSmallScreen: boolean,
+}
+
+export default function LoginHeader({isSmallScreen}: LoginHeaderProps) {
     return (
         <header className={styles.header}>
             <img className={styles.logo} src="/assets/img/logo_login.png" alt="" />
-            <div className={styles.signupContainer}>
-                <span>Not a Join User?</span>
-                <Link to="/register"><button className={styles.signupBtn}>Sign up</button></Link>
-            </div>
+            {!isSmallScreen && <SignUpContainer />}
+            
         </header>
     )
 }

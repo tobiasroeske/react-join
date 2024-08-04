@@ -6,6 +6,7 @@ function ContactHeadline() {
             <h1>Contacts</h1>
             <div className={styles.seperatorHeadline}></div>
             <span>Better with a team</span>
+            <div className={styles.seperatorHeadlineMobile}></div>
         </div>
      );
 }

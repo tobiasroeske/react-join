@@ -10,6 +10,7 @@ import checkPriority from "../../shared/utils/checkPriority";
 type TaskContainerProps = {
     task: Task,
     setTaskIndex: () => void,
+    
 }
 
 function TaskContainer({ task, setTaskIndex }: TaskContainerProps) {

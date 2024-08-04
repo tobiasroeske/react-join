@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import styles from '../addTaskPage.module.css';
 
 type TaskCreatedProps = {
@@ -6,7 +7,7 @@ type TaskCreatedProps = {
 
 function TaskCreated({taskCreated}: TaskCreatedProps) {
     return (
-        <div className={styles.taskCreated} style={taskCreated ? {'top': '50%'}: {}}>
+        <div className={classNames(styles.taskCreated, { [styles.created]: taskCreated })}>
             Task added to board
             <img src="./assets/icons/board.png" alt="" />
         </div>);

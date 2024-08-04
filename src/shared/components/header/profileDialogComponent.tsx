@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './header.module.css'
 import { useAuthContext } from '../../authProvider';
+import classNames from 'classnames';
 
 function ProfileDialog() {
     const authContext = useAuthContext();
@@ -18,6 +19,7 @@ function ProfileDialog() {
 
     return (
         <div className={styles.dialog}>
+            <Link to="/help" className={classNames(styles.link, styles.helpLink)}>Help</Link>
             <Link to="/legal-notice" className={styles.link}>Legal Notice</Link>
             <Link to="/privacy-policy" className={styles.link}>Privacy Policy</Link>
             <span className={styles.link} onClick={logout}>Logout</span>

@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 import useTasks from "../../shared/hooks/useTasks";
 import { useEffect, useState } from "react";
 import { Task } from "../../shared/interfaces/task.interface";
+import GreetingMessage from "./greetingMessageComponent";
+import useGreetingMessage from "../../shared/hooks/useGreetingMessage";
+import useClosestDueDate from "../../shared/hooks/useClosestDueDate";
 
 const editSvg = (
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -27,11 +30,20 @@ function Summary() {
     const [awaitFeedbackTasks, setAwaitFeedbackTasks] = useState<Task[]>([]);
     const [doneTasks, setDoneTasks] = useState<Task[]>([]);
     const [urgentTasks, setUrgentTasks] = useState<Task[]>([]);
-    const [closestDueDate, setClosestDueDate] = useState<number | null>(null)
+    const [showGreeting, setShowGreeting] = useState<boolean>(false);
     const authContext = useAuthContext();
     const { user } = authContext;
     const navigate = useNavigate();
     const tasks = useTasks();
+    const closestDueDate = useClosestDueDate(tasks);
+    const greetingMessage = useGreetingMessage();
+
+    function showGreetingMessage() {
+        if (window.innerWidth <= 1150) {
+            setShowGreeting(true)
+            setTimeout(() => setShowGreeting(false), 1500)
+        }
+    }
 
     useEffect(() => {
         let todos = tasks.filter(task => task.state === 'to-do');
@@ -45,35 +57,16 @@ function Summary() {
         setAwaitFeedbackTasks(awaitFeedback);
         setDoneTasks(done);
         setUrgentTasks(urgent);
-        setClosestDueDate(getClosestDueDateTimestamp(tasks));
-    }, [tasks])
-
-    function getClosestDueDateTimestamp(tasks: Task[]): number | null {
-        // Get today's date and start of the day
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        
-        // Initialize closestDate as null
-        let closestDate: number | null = null;
-        
-        // Find the task with the closest dueDate that is on or after today
-        for (const task of tasks) {
-            const dueDate = new Date(task.dueDate);
-            if (dueDate >= today) {
-                if (closestDate === null || dueDate.getTime() < closestDate) {
-                    closestDate = dueDate.getTime();
-                }
-            }
-        }
-        
-        return closestDate;
-    }
+        showGreetingMessage();
+    }, [tasks]);
 
     function handleNavigate() {
         navigate('/board');
     }
 
-
+    if (showGreeting) {
+        return <GreetingMessage />
+    }
 
     return (
         <>
@@ -95,7 +88,7 @@ function Summary() {
                 </div>
                 <div className={styles.greetingContainer}>
                     <div className={styles.greetingBox}>
-                        <h2>Good morning</h2>
+                        <h2>{greetingMessage}</h2>
                         <span>{user?.displayName}</span>
                     </div>
                 </div>

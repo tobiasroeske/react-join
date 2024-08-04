@@ -24,6 +24,10 @@
     align-items: center;
 }
 
+.logoMobile {
+    display: none;
+}
+
 .profileContainer>img {
     cursor: pointer;
 }
@@ -75,6 +79,49 @@
     width: 100%;
 }
 
+.helpLink {
+    display: none;
+}
+
 .link:hover {
     background-color: #2A3D59;
+}
+
+@media (max-width: 740px) {
+    .logoMobile {
+        display: flex;
+        width: 32px;
+    }
+
+    .headline {
+        display: none;
+    }
+
+    .header {
+        padding: 20px 48px;
+    }
+
+    .profileContainer > img {
+        display: none;
+    }
+
+    .initials {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .helpLink {
+        display: block;
+    }
+
+    .dialog {
+        top: 80px;
+    }
+}
+
+@media (max-width: 450px) {
+    .header {
+        padding: 20px 16px;
+    }
 }

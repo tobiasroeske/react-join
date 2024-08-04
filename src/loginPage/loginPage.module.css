@@ -4,6 +4,7 @@
 
 .main {
     width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -80,8 +81,6 @@
     gap: 32px;
 }
 
-
-
 .actionContainer {
     display: flex;
     align-items: center;
@@ -108,4 +107,84 @@
     color: #29ABE2;
     border: 1px solid #29ABE2;
     box-shadow: 0px 6px 5px 0px rgba(190,191,192,0.75);
+}
+
+@media (max-width: 950px) {
+    .main {
+        gap: 24px;
+    }
+
+    .header {
+        padding: 24px;
+    }
+
+    .loginContainer {
+        padding: 40px 72px;
+        gap: 20px;
+    }
+
+    .form {
+        gap: 24px;
+    }
+}
+
+@media (max-width: 500px) {
+    .loginContainer {
+        padding: 32px 40px;
+    }
+
+    .actionContainer {
+        gap: 24px;
+    }
+}
+
+@media (max-width: 445px) {
+    .logo {
+        width: 64px;
+        height: 78.03px;
+    }
+
+    .main {
+        gap: 24px;
+    }
+
+    .header {
+        padding: 12px 24px 0;
+    }
+
+    .headline > h1 {
+        font-size: 47px;
+    }
+
+    .loginContainer {
+        padding: 24px 16px;
+        width: 95%;
+        gap: 12px;
+    }
+
+    .form {
+        width: 100%;
+    }
+
+    .actionContainer {
+        flex-direction: column;
+        width: 180px;
+        gap: 12px;
+    }
+
+    .guestLoginBtn {
+        width: 100%;
+        text-align: center;
+        font-size: 18px;
+        padding: 10px 24px;
+    }
+
+    .signupContainer > span {
+        font-size: 18px;
+    }
+
+    .signupBtn {
+        font-size: 18px;
+        padding: 10px 16px;
+    }
 }
