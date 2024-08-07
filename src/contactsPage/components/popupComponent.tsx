@@ -3,22 +3,29 @@ import AddContactDialog from './addContactDialog';
 import EditContactComponent from './editContactDialog';
 
 type PopupProps = {
-    onShowPopup: () => void,
-    editContact: boolean,
-    selectedContact: Contact | null,
-    onContactEdit: (contact: Contact | null) => void,
-    creationSuccesful: () => void
+    onShowPopup: () => void;
+    editContact: boolean;
+    selectedContact: Contact | null;
+    onContactEdit: (contact: Contact | null) => void;
+    onCreationSuccessful: () => void,
 }
 
-function Popup({ onShowPopup, editContact, selectedContact, onContactEdit, creationSuccesful }: PopupProps) {
+function Popup({ onShowPopup, editContact, selectedContact, onContactEdit, onCreationSuccessful }: PopupProps) {
     return (
         <div className='popup'>
             {editContact ? (
-                <EditContactComponent onContactEdit={onContactEdit} onShowPopup={onShowPopup} selectedContact={selectedContact} />
+                <EditContactComponent 
+                    onContactEdit={onContactEdit} 
+                    onShowPopup={onShowPopup} 
+                    selectedContact={selectedContact} 
+                />
             ) : (
-                <AddContactDialog creationSuccesful={creationSuccesful} onContactCreation={onContactEdit} onShowPopup={onShowPopup} />
+                <AddContactDialog 
+                    creationSuccessful={onCreationSuccessful} 
+                    onContactCreation={onContactEdit} 
+                    onShowPopup={onShowPopup} 
+                />
             )}
-
         </div>
     );
 }

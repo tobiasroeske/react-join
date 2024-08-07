@@ -48,6 +48,15 @@ export default function LoginForm() {
         }
     }
 
+    async function guestLogin() {
+        try {
+            await loginUser('guest@guest.de', '12345678');
+            navigate('/summary')
+        } catch (error) {
+            console.error('Error logging in as guest', error)
+        }
+    }
+
     function handleCheckboxChange(e: ChangeEvent<HTMLInputElement>) {
         setRememberMe(e.target.checked);
     }
@@ -89,7 +98,7 @@ export default function LoginForm() {
             </div>
             <div className={styles.actionContainer}>
                 <SubmitBtn text={'Log in'} disabled={false} />
-                <div className={styles.guestLoginBtn}>Guest Log in</div>
+                <div className={styles.guestLoginBtn} onClick={guestLogin}>Guest Log in</div>
             </div>
         </form>
     );

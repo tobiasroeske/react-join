@@ -1,7 +1,13 @@
-function LegalNotice() {
+import PageLayout from "../shared/components/pageLayout";
+import LegalNotice from "./legalNoticeComponent";
+
+function LegalNoticePage() {
     return ( 
-        <h1>Legal Notice</h1>
+        <>
+            <PageLayout onContactPage={true} Component={LegalNotice}/>
+        </>
+        
      );
 }
 
-export default LegalNotice;
+export default LegalNoticePage;

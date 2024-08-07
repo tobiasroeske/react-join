@@ -85,6 +85,13 @@
 
 .link:hover {
     background-color: #2A3D59;
+    color: white;
+}
+
+.extraLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @media (max-width: 740px) {

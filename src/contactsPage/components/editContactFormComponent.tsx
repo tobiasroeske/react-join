@@ -6,7 +6,6 @@ import { useFirestoreContext } from "../../shared/firestoreProvider";
 
 
 type EditContactFormProps = {
-    
     selectedContact: Contact | null,
     onShowPopup: () => void,
     onContactEdit: (contact: Contact | null) => void
@@ -16,7 +15,6 @@ type FormFields = {
     name: string,
     email: string,
     phone: string,
-    
 }
 
 function EditContactForm({selectedContact, onShowPopup, onContactEdit} :EditContactFormProps) {
@@ -118,7 +116,7 @@ function EditContactForm({selectedContact, onShowPopup, onContactEdit} :EditCont
             </div>
 
             <div className={styles.formAction}>
-                <div className={styles.cancelBtn} onClick={handleDelete}>Delete</div>
+                <div className={styles.deleteBtn} onClick={handleDelete}>Delete</div>
                 <button type="submit" className={styles.submitBtn}>Save <img src="/assets/icons/check_contacts.png" alt="" /></button>
             </div>
         </form>

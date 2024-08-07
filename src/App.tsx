@@ -11,6 +11,7 @@ import FirestoreProvider from './shared/firestoreProvider';
 import LegalNotice from './legalNoticePage/legalNoticePage';
 import PrivacyPolicy from './privacyPolicyPage/privacyPolicyPage';
 import useOrientation from './shared/hooks/useOrientation';
+import HelpPage from './helpPage/helpPage';
 
 
 function App() {
@@ -35,7 +36,8 @@ function App() {
     { path: 'login', element: <LoginPage /> },
     { path: 'register', element: <RegisterPage /> },
     { path: 'legal-notice', element: <LegalNotice /> },
-    { path: 'privacy-policy', element: <PrivacyPolicy /> }
+    { path: 'privacy-policy', element: <PrivacyPolicy /> },
+    { path: 'help', element: <HelpPage /> }
   ]);
 
   return (

@@ -6,18 +6,19 @@ import { Contact } from '../../shared/interfaces/contact.interface';
 
 const TRANSITION_DELAY = 125;
 
-let cancelSvg = (<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12.001 12.5001L17.244 17.7431M6.758 17.7431L12.001 12.5001L6.758 17.7431ZM17.244 7.25708L12 12.5001L17.244 7.25708ZM12 12.5001L6.758 7.25708L12 12.5001Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-</svg>
-)
+const cancelSvg = (
+    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12.001 12.5001L17.244 17.7431M6.758 17.7431L12.001 12.5001L6.758 17.7431ZM17.244 7.25708L12 12.5001L17.244 7.25708ZM12 12.5001L6.758 7.25708L12 12.5001Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
 
-type EditContactComponentProps = {
-    onShowPopup: () => void,
-    selectedContact: Contact | null,
+type EditContactFormProps = {
+    onShowPopup: () => void;
+    selectedContact: Contact | null;
     onContactEdit: (contact: Contact | null) => void,
-}
+};
 
-function EditContactComponent({ onShowPopup, selectedContact, onContactEdit }: EditContactComponentProps) {
+function EditContactComponent({ onShowPopup, selectedContact, onContactEdit }: EditContactFormProps) {
     const [formVisible, setFormVisible] = useState<boolean>(false);
 
     useEffect(() => {
@@ -37,13 +38,18 @@ function EditContactComponent({ onShowPopup, selectedContact, onContactEdit }: E
                     <h1>Edit contact</h1>
                     <div className={styles.dialogSeperator}></div>
                 </div>
+                <div className={styles.cancelIconMobile} onClick={handleClose}>{cancelSvg}</div>
             </div>
             <div className={styles.rightside}>
-                <div className={styles.imgContainer}>
+                <div className={styles.imgContainer} style={{backgroundColor: selectedContact?.color}}>
                     <img src="/assets/icons/person_contacts.png" alt="" />
                 </div>
 
-                <EditContactForm selectedContact={selectedContact} onShowPopup={handleClose} onContactEdit={onContactEdit}/>
+                <EditContactForm 
+                selectedContact={selectedContact} 
+                onShowPopup={handleClose} 
+                onContactEdit={onContactEdit} 
+                />
                 <div className={styles.cancelIcon} onClick={handleClose}>{cancelSvg}</div>
             </div>
         </div>

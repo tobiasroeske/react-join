@@ -19,9 +19,9 @@ function ProfileDialog() {
 
     return (
         <div className={styles.dialog}>
-            <Link to="/help" className={classNames(styles.link, styles.helpLink)}>Help</Link>
-            <Link to="/legal-notice" className={styles.link}>Legal Notice</Link>
-            <Link to="/privacy-policy" className={styles.link}>Privacy Policy</Link>
+            <Link to="/help" target="_blank" rel="noopener noreferrer" className={classNames(styles.link, styles.helpLink)}>Help</Link>
+            <Link to="/legal-notice"  target="_blank" rel="noopener noreferrer"className={styles.link}>Legal Notice</Link>
+            <Link to="/privacy-policy" target="_blank" rel="noopener noreferrer"className={styles.link}>Privacy Policy</Link>
             <span className={styles.link} onClick={logout}>Logout</span>
         </div>
     );

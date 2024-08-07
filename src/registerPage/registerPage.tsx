@@ -19,7 +19,6 @@ function RegisterPage() {
             <Header />
             <SignupContainer isSuccessful={showSuccessBox === true} onShow={() => setIsSuccessful(true)} />
             <Footer />
-            {showSuccessBox && <SignUpSuccessful />}
         </div>
     );
 }

@@ -1,6 +1,9 @@
+import PageLayout from "../shared/components/pageLayout";
+import Privacy from "./privacyComponent";
+
 function PrivacyPolicy() {
     return ( 
-        <h1>Privacy Policy</h1>
+        <PageLayout onContactPage={true} Component={Privacy}/>
      );
 }
 

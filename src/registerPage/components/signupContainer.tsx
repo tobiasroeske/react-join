@@ -2,6 +2,7 @@ import { registerProps } from "../registerPage";
 import styles from '../registerPage.module.css';
 import BackArrow from "../../shared/components/backArrowComponent";
 import RegisterForm from "./registerForm";
+import SignUpSuccessful from "./signupSuccessful";
 
 function SignupContainer( {isSuccessful, onShow} : registerProps ) {
     return (
@@ -12,6 +13,7 @@ function SignupContainer( {isSuccessful, onShow} : registerProps ) {
             </div>
             <RegisterForm isSuccessful={isSuccessful} onShow={() => onShow()}/>
             <BackArrow top={'72px'} left={'48px'} />
+            {isSuccessful && <SignUpSuccessful />}
         </div>
     )
 }
