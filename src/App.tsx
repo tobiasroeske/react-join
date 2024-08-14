@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import LoginPage from './loginPage/loginPage';
+import LoginPage from "./loginPage/loginPage"
 import SummaryPage from './summaryPage/summaryPage';
 import BoardPage from './boardPage/boardPage';
 import AddTaskPage from './addTaskPage/addTaskPagae';

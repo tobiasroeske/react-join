@@ -37,6 +37,7 @@ function AddTaskForm({ state, handleSubmitActions }: AddTaskFormProps) {
     const [priority, setPriority] = useState<string>('Medium');
     const [category, setCategory] = useState<string>('');
     const [subtasks, setSubtasks] = useState<Subtask[]>([]);
+    const [showCreatedButton, setShowCreatedButton] = useState<boolean>(false);
 
     const [showContactDropdown, setShowContactDropdown] = useState<boolean>(false);
     const [showCategoryDropdown, setShowCategoryDropdown] = useState<boolean>(false);
@@ -67,6 +68,7 @@ function AddTaskForm({ state, handleSubmitActions }: AddTaskFormProps) {
         if (user) {
             let newTask = createTaskObject(data, user);
             await addTask(newTask!);
+            setShowCreatedButton(true);
             resetForm();
             handleSubmitActions();
         }
@@ -114,7 +116,8 @@ function AddTaskForm({ state, handleSubmitActions }: AddTaskFormProps) {
                         <input
                             {...register('title', {
                                 required: "Title is required",
-                                minLength: { value: 3, message: "Please enter at least 3 characters" }
+                                minLength: { value: 3, message: "Please enter at least 3 characters" },
+                                maxLength: { value: 25, message: "Please enter maximal 20 characters" },
                             })}
                             type="text"
                             id="title"
@@ -205,6 +208,14 @@ function AddTaskForm({ state, handleSubmitActions }: AddTaskFormProps) {
                     </button>
                 </div>
             </div>
+            {showCreatedButton &&
+                <div className={styles.createdOverlay}>
+                    <div className={styles.createdMessage}>
+                        Task added to Board
+                    </div>
+                    
+                </div>
+            }
         </form>
     );
 }

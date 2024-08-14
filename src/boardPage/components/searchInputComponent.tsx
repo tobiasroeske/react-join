@@ -28,7 +28,7 @@ function SearchInput({ getSearchedTasks }: SearchInputProps) {
 
     useEffect(() => {
         getSearchedTasks(tasks);
-    }, [tasks])
+    }, [tasks, getSearchedTasks])
 
     return (
         <div className={classNames("inputContainer", styles.searchInput)}>

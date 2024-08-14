@@ -9,11 +9,12 @@ import {
 import { createContext, useEffect, useState, ReactNode, useContext } from "react";
 import auth from "../firebaseConfig";
 
+
 interface AuthContextType {
     user: User | null;
     loading: boolean;
     createUser: (email: string, password: string) => Promise<UserCredential>;
-    loginUser: (email: string, password: string) => Promise<UserCredential>;
+    loginUser: (email: string, password: string) => Promise<UserCredential | undefined>;
     logoutUser: () => Promise<void>;
 }
 
@@ -37,7 +38,8 @@ function AuthProvider({ children }: AuthProviderProps) {
     async function createUser(email: string, password: string) {
         setLoading(true);
         try {
-            return await createUserWithEmailAndPassword(auth, email, password);
+            let response = await createUserWithEmailAndPassword(auth, email, password);
+            return response;
         } catch (error) {
             console.error('Error creating user: ', error);
             throw error;
@@ -46,19 +48,15 @@ function AuthProvider({ children }: AuthProviderProps) {
         }
     }
 
-    async function loginUser(email: string, password: string) {
-        setLoading(true);
+    async function loginUser(email: string, password: string): Promise<UserCredential | undefined> {
+        try {
+            setLoading(true);
         let response = await signInWithEmailAndPassword(auth, email, password)
         setLoading(false);
         return response;
-        // try {
-        //     return await signInWithEmailAndPassword(auth, email, password);
-        // } catch (error) {
-        //     console.error('Error logging in: ', error);
-        //     throw error;
-        // } finally {
-        //     setLoading(false);
-        // }
+        } catch (error) {
+            console.error('Error during login', error)
+        }
     }
 
     async function logoutUser() {

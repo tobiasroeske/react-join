@@ -12,12 +12,13 @@ export default function Header() {
     const { user } = AuthContext;
     const location = useLocation();
     const initials = useUserInitials(user);
-    const specialPathNames = ['/help', 'legal-notice', 'privacy-policy'];
+    
 
     useEffect(() => {
+        const specialPathNames = ['/help', 'legal-notice', 'privacy-policy'];
         const isSpecialPage = specialPathNames.some(path => location.pathname.includes(path));
         setOnSpecialPage(isSpecialPage);
-    }, [location.pathname, specialPathNames]);
+    }, [location.pathname]);
 
     function toggleProfileDialog() {
         showProfileDialog ? setShowProfileDialog(false) : setShowProfileDialog(true);

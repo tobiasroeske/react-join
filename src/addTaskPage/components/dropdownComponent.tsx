@@ -6,7 +6,7 @@ import styles from '../addTaskPage.module.css';
 type DropdownProps = {
     contacts: Contact[],
     onContactSelect: (contact: Contact, e: React.MouseEvent) => void,
-    selectedContacts: Contact [],
+    selectedContacts: Contact[],
 };
 
 function Dropdown({ contacts, onContactSelect, selectedContacts }: DropdownProps) {
@@ -17,7 +17,8 @@ function Dropdown({ contacts, onContactSelect, selectedContacts }: DropdownProps
 
     return (
         <div className={styles.dropdownMenu}>
-            {contacts.map(contact =>
+
+            {contacts.length > 0 ? contacts.map(contact =>
                 <div
                     key={contact.id}
                     className={styles.contactBox}
@@ -29,7 +30,11 @@ function Dropdown({ contacts, onContactSelect, selectedContacts }: DropdownProps
                     </div>
                     {contact.name}
                 </div>
-            )}
+            )
+                :
+                <div className={styles.contactBox}>
+                    So far not contacts added
+                </div>}
         </div>
     );
 }

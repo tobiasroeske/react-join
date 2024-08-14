@@ -4,6 +4,7 @@ import { useAuthContext } from "../authProvider";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { firestore } from "../../firebaseConfig";
 
+
 function useTasks() {
     const [tasks, setTasks] = useState<Task[]>([]);
     const { user, loading } = useAuthContext();

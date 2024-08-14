@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Headline from "./headlineComponent";
 import styles from "../boardPage.module.css";
 import Popup from "./popupComponent";
@@ -29,10 +29,10 @@ function Board() {
         setPopupState(state);
         togglePopupVisibility();
     }
-
-    function handleSearchResult(tasks: Task[]) {
+    
+    const handleSearchResult = useCallback((tasks: Task[]) => {
         setTasks(tasks);
-    }
+    }, [])
 
     function togglePopupVisibility() {
         setIsPopupVisible((prev) => !prev);

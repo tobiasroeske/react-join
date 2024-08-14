@@ -4,7 +4,6 @@ import styles from './registerPage.module.css';
 import { useState } from 'react';
 import SignupContainer from './components/signupContainer';
 import Header from './components/header';
-import SignUpSuccessful from './components/signupSuccessful';
 import { Footer } from '../shared/components/footerComponent';
 
 export type registerProps = {

@@ -7,15 +7,15 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { updateProfile } from "firebase/auth";
 import styles from '../registerPage.module.css';
 import { SubmitBtn } from "../../shared/components/submitBtnComponent";
+import { Contact } from "../../shared/interfaces/contact.interface";
 
 
 type FormFields = { name: string, email: string, password: string, confirmedPassword: string, checkboxInput: boolean };
 
 export function RegisterForm( {isSuccessful, onShow} : registerProps ) {
     const authContext = useAuthContext()
-    const firestoreContext = useFirestoreContext();
     const { createUser } = authContext;
-    const { addUser, updateUser } = firestoreContext;
+    const { addUser, updateUser, addContact } = useFirestoreContext();
     const { register, handleSubmit, watch, setError, formState: { errors, isSubmitting } } = useForm<FormFields>();
     const navigate = useNavigate();
     const password = watch('password', '')
@@ -28,12 +28,18 @@ export function RegisterForm( {isSuccessful, onShow} : registerProps ) {
             await updateProfile(userCredentials.user, { displayName: data.name });
             await addUser(userCredentials.user.uid, userCredentials);
             await updateUser(userCredentials.user.uid, newUser);
+            await createUserContact(data, userCredentials.user.uid);
             pipeToLogin();
         } catch (error: any) {
             setError('root', {
                 message: "This email is already taken"
             })
         }
+    }
+
+    async function createUserContact(data: FormFields, uid: string) {
+        let userContact = { name: data.name, email: data.email, phone: '', creatorId: uid, color: '#2A3647' } as Contact
+        await addContact(userContact);
     }
 
     function pipeToLogin() {

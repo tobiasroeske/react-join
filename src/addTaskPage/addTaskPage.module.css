@@ -406,6 +406,34 @@
     /* Firefox */
 }
 
+.createdOverlay {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.05);
+    z-index: 500;
+}
+
+.createdMessage {
+    background-color: #2A3647;
+    border-radius: 10px;
+    font-weight: 700;
+    color: white;
+    font-size: 21px;
+    text-align: center;
+    padding: 15px 21px;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 @media (max-width: 1240px) {
 
     .selectedHigh,
@@ -509,6 +537,10 @@
     .form {
         padding-bottom: 48px;
     }
+
+    .createdOverlay {
+        display: flex;
+    }
 }
 
 @media (max-width: 630px) {
@@ -537,6 +569,18 @@
 
     .label {
         font-size: 16px;
+    }
+
+    .addIcon {
+        bottom: 13px;
+    }
+
+    .dropdownMenu {
+        top: 67px;
+    }
+    
+    .addIconContainer {
+        bottom: 9px;
     }
 
     .form {
