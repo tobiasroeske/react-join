@@ -5,7 +5,7 @@ import SidenavMobile from "./sidenavMobileComponent";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 
-export default function Sidenav() {
+function Sidenav() {
     const [hideNav, setHideNav] = useState<boolean>(false);
     const location = useLocation();
     const specialPathNames = ['/help', 'legal-notice', 'privacy-policy'];
@@ -49,3 +49,5 @@ export default function Sidenav() {
         </>
     )
 }
+
+export default Sidenav

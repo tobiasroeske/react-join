@@ -1,6 +1,6 @@
 function LoadingSpinner() {
     return (
-        <div className="custom-loader"></div>
+        <div data-testid="loading-spinner" className="custom-loader"></div>
     );
 }
 

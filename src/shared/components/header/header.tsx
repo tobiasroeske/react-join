@@ -5,7 +5,7 @@ import styles from './header.module.css'
 import ProfileDialog from './profileDialogComponent';
 import { Link, useLocation } from 'react-router-dom';
 
-export default function Header() {
+function Header() {
     const AuthContext = useAuthContext();
     const [showProfileDialog, setShowProfileDialog] = useState<boolean>(false)
     const [onSpecialPage, setOnSpecialPage] = useState<boolean>(false);
@@ -21,17 +21,17 @@ export default function Header() {
     }, [location.pathname]);
 
     function toggleProfileDialog() {
-        showProfileDialog ? setShowProfileDialog(false) : setShowProfileDialog(true);
+        setShowProfileDialog(prev => !prev);
     }
 
     return (
         <>
             <header className={styles.header}>
                 <h1 className={styles.headline}>Kanban Project Management Tool</h1>
-                <img src="./assets/img/logo_login.png" alt="" className={styles.logoMobile}/>
+                <img src="./assets/img/logo_login.png" alt="logo" className={styles.logoMobile}/>
                 <div className={styles.profileContainer} >
-                    <Link to='/help' target="_blank" rel="noopener noreferrer" className={styles.extraLink}><img src="/assets/icons/help.png" alt="" /></Link>
-                    <div className={styles.initials} onClick={toggleProfileDialog} style={onSpecialPage ? {borderColor: 'white'}: {}}>
+                    <Link data-testid="helpLink" to='/help' target="_blank" rel="noopener noreferrer" className={styles.extraLink}><img src="/assets/icons/help.png" alt="help icon" /></Link>
+                    <div data-testid="profile-initials" className={styles.initials} onClick={toggleProfileDialog} style={onSpecialPage ? {borderColor: 'white'}: {}}>
                         {initials}
                     </div>
                 </div>
@@ -41,3 +41,5 @@ export default function Header() {
         </>
     )
 }
+
+export default Header

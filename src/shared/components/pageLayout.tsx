@@ -37,7 +37,7 @@ function PageLayout({ Component, onContactPage }: PageLayoutProps) {
                 <Sidenav />
                 <div className='content-complete'>
                     <Header />
-                    <div className={onContactPage ? 'contactPageContainer' : 'main-content'}>
+                    <div data-testid="main-container" className={onContactPage ? 'contactPageContainer' : 'main-content'}>
                         {!onSpecialPage ? (loading ? <LoadingSpinner /> : <Component />) : <Component />}
                     </div>
                 </div>
