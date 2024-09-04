@@ -1,46 +1,84 @@
-# Getting Started with Create React App
+# Join - Taskmanagement App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Join ist eine Taskmanagement-App, mit der Sie Tasks erstellen und in einem Kanban-Board anzeigen lassen können. Tasks können nachträglich per Drag-and-Drop verschoben werden. Die App ist mit React geschrieben und nutzt React Router, React Contexts und Google Firebase als Backend.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Erstellen und Verwalten von Tasks
+- Anzeige der Tasks in einem Kanban-Board
+- Drag-and-Drop-Unterstützung zum Verschieben von Tasks
+- Integration von React Router für die Navigation
+- Nutzung von React Contexts für das State Management
+- Firebase als Backend für die Datenhaltung
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Klonen Sie das Repository:
+    ```bash
+    git clone https://github.com/IhrBenutzername/join.git
+    ```
+2. Navigieren Sie in das Projektverzeichnis:
+    ```bash
+    cd join
+    ```
+3. Installieren Sie die Abhängigkeiten:
+    ```bash
+    npm install
+    ```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Firebase-Konfiguration
 
-### `npm test`
+1. Erstellen Sie ein neues Projekt auf [Firebase](https://firebase.google.com/).
+2. Fügen Sie eine Web-App zu Ihrem Firebase-Projekt hinzu und kopieren Sie die Firebase-Konfigurationsdaten.
+3. Erstellen Sie eine Datei `src/firebaseConfig.ts` und fügen Sie Ihre Konfigurationsdaten ein:
+    ```typescript
+    export const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      databaseURL: "YOUR_DATABASE_URL",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4. Fügen Sie `src/firebaseConfig.ts` zur `.gitignore`-Datei hinzu, um zu verhindern, dass sie in das Repository aufgenommen wird:
+    ```plaintext
+    # Firebase config
+    src/firebaseConfig.ts
+    ```
 
-### `npm run build`
+## Nutzung
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Starten Sie die Entwicklungsumgebung:
+    ```bash
+    npm start
+    ```
+2. Öffnen Sie [http://localhost:3000](http://localhost:3000) in Ihrem Browser, um die App zu sehen.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Deployment
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Ihre App ist bereit für den Einsatz!
+
+Weitere Informationen zum Deployment finden Sie im Abschnitt über [Deployment](https://facebook.github.io/create-react-app/docs/deployment).
 
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Hinweis: Dies ist eine Einbahnstraße. Sobald Sie `eject` ausführen, können Sie nicht mehr zurück!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Wenn Sie mit den Build-Tools und Konfigurationsoptionen nicht zufrieden sind, können Sie `eject` jederzeit ausführen. Dieser Befehl entfernt die einzige Build-Abhängigkeit aus Ihrem Projekt.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Stattdessen werden alle Konfigurationsdateien und die transitive Abhängigkeiten (webpack, Babel, ESLint, etc.) direkt in Ihr Projekt kopiert, sodass Sie die volle Kontrolle über diese haben. Alle Befehle außer `eject` funktionieren weiterhin, aber sie verweisen auf die kopierten Skripte, sodass Sie diese anpassen können. Ab diesem Punkt sind Sie auf sich allein gestellt.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Sie müssen `eject` niemals verwenden. Das kuratierte Funktionsset ist für kleine und mittlere Deployments geeignet, und Sie sollten sich nicht verpflichtet fühlen, diese Funktion zu nutzen. Wir verstehen jedoch, dass dieses Tool nicht nützlich wäre, wenn Sie es nicht anpassen könnten, wenn Sie bereit dafür sind.
 
-## Learn More
+## Mehr erfahren
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Weitere Informationen finden Sie in der [Create React App Dokumentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Um mehr über React zu erfahren, besuchen Sie die [React Dokumentation](https://reactjs.org/).
+
+## Lizenz
+
+Dieses Projekt ist unter der MIT-Lizenz lizenziert. Weitere Informationen finden Sie in der [LICENSE](LICENSE) Datei.
