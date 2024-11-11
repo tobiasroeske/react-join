@@ -1,7 +1,19 @@
-import classNames from "classnames"
+import classNames from 'classnames'
 
-export function SubmitBtn({ text, disabled }: { text: string, disabled: boolean }) {
-    return (
-        <button type='submit' disabled={disabled} className={classNames("loginBtn", { ['disabled-btn']: disabled })}>{text}</button>
-    )
+export function SubmitBtn({
+  text,
+  disabled
+}: {
+  text: string
+  disabled: boolean
+}) {
+  return (
+    <button
+      type="submit"
+      disabled={disabled}
+      className={classNames('loginBtn', { ['disabled-btn']: disabled })}
+    >
+      {text}
+    </button>
+  )
 }

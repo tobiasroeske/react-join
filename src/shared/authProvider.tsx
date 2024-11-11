@@ -1,99 +1,142 @@
 import {
-    createUserWithEmailAndPassword,
-    onAuthStateChanged,
-    signInWithEmailAndPassword,
-    signOut,
-    User,
-    UserCredential
-} from "firebase/auth";
-import { createContext, useEffect, useState, ReactNode, useContext } from "react";
-import auth from "../firebaseConfig";
-
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  User,
+  UserCredential
+} from 'firebase/auth'
+import {
+  createContext,
+  useEffect,
+  useState,
+  ReactNode,
+  useContext
+} from 'react'
+import auth from '../firebaseConfig'
 
 interface AuthContextType {
-    user: User | null;
-    loading: boolean;
-    createUser: (email: string, password: string) => Promise<UserCredential>;
-    loginUser: (email: string, password: string) => Promise<UserCredential | undefined>;
-    logoutUser: () => Promise<void>;
+  user: User | null
+  loading: boolean
+  createUser: (email: string, password: string) => Promise<UserCredential>
+  loginUser: (
+    email: string,
+    password: string
+  ) => Promise<UserCredential | undefined>
+  logoutUser: () => Promise<void>
 }
 
 interface AuthProviderProps {
-    children: ReactNode;
+  children: ReactNode
 }
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+export const AuthContext = createContext<AuthContextType | null>(null)
+
+/**
+ * Custom hook to use the AuthContext.
+ *
+ * @returns {AuthContextType} The AuthContext value.
+ * @throws Will throw an error if used outside of AuthProvider.
+ */
 export function useAuthContext() {
-    const authContext = useContext(AuthContext);
-    if (!authContext) {
-        throw new Error('useContext(AuthCpntex) must be used within an AuthProvider')
-    }
-    return authContext;
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuthContext must be used within an AuthProvider')
+  }
+  return context
 }
 
-function AuthProvider({ children }: AuthProviderProps) {
-    const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState(true);
+/**
+ * AuthProvider component.
+ *
+ * @param {AuthProviderProps} props - The props for the component.
+ * @param {ReactNode} props.children - The child components.
+ * @returns {JSX.Element} The rendered component.
+ */
+export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
 
-    async function createUser(email: string, password: string) {
-        setLoading(true);
-        try {
-            let response = await createUserWithEmailAndPassword(auth, email, password);
-            return response;
-        } catch (error) {
-            console.error('Error creating user: ', error);
-            throw error;
-        } finally {
-            setLoading(false);
-        }
+  /**
+   * Registers a new user with email and password.
+   *
+   * @param {string} email - The email of the user.
+   * @param {string} password - The password of the user.
+   * @returns {Promise<UserCredential>} A promise that resolves with the user credentials if successful.
+   */
+  async function createUser(
+    email: string,
+    password: string
+  ): Promise<UserCredential> {
+    setLoading(true)
+    try {
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
+      setUser(response.user)
+      return response
+    } finally {
+      setLoading(false)
     }
+  }
 
-    async function loginUser(email: string, password: string): Promise<UserCredential | undefined> {
-        try {
-            setLoading(true);
-        let response = await signInWithEmailAndPassword(auth, email, password)
-        setLoading(false);
-        return response;
-        } catch (error) {
-            console.error('Error during login', error)
-        }
+  /**
+   * Logs in a user with email and password.
+   *
+   * @param {string} email - The email of the user.
+   * @param {string} password - The password of the user.
+   * @returns {Promise<UserCredential | undefined>} A promise that resolves with the user credentials if successful.
+   */
+  async function loginUser(
+    email: string,
+    password: string
+  ): Promise<UserCredential | undefined> {
+    setLoading(true)
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password)
+      return response
+    } catch (error) {
+      console.error('Error during login', error)
+    } finally {
+      setLoading(false)
     }
+  }
 
-    async function logoutUser() {
-        setLoading(true);
-        try {
-            await signOut(auth);
-        } catch (error) {
-            console.error('Error logging out: ', error);
-            throw error;
-        } finally {
-            setLoading(false);
-        }
+  /**
+   * Logs out the current user.
+   *
+   * @returns {Promise<void>} A promise that resolves when the user is logged out.
+   */
+  async function logoutUser(): Promise<void> {
+    setLoading(true)
+    try {
+      await signOut(auth)
+    } catch (error) {
+      console.error('Error logging out: ', error)
+      throw error
+    } finally {
+      setLoading(false)
     }
+  }
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-            setLoading(false);
-        });
-        return () => {
-            unsubscribe();
-        };
-    }, []);
+  /**
+   * Effect to set up an authentication state observer and get user data.
+   */
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+      setLoading(false)
+    })
+    return () => unsubscribe()
+  }, [])
 
-    const authValue: AuthContextType = {
-        createUser,
-        user,
-        loginUser,
-        logoutUser,
-        loading,
-    };
-
-    return (
-        <AuthContext.Provider value={authValue}>
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider
+      value={{ user, loading, createUser, loginUser, logoutUser }}
+    >
+      {children}
+    </AuthContext.Provider>
+  )
 }
-
-export default AuthProvider;
