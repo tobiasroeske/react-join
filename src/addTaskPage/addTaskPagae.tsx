@@ -1,12 +1,9 @@
-import '../index.css';
-import PageLayout from '../shared/components/pageLayout';
-import AddTask from './components/addTaskComponent';
-
+import '../index.css'
+import PageLayout from '../shared/components/pageLayout'
+import AddTask from './components/addTaskComponent'
 
 function AddTaskPage() {
-    return (
-        <PageLayout Component={AddTask} onContactPage={false}/>
-    );
+  return <PageLayout Component={AddTask} onContactPage={false} />
 }
 
-export default AddTaskPage;
+export default AddTaskPage

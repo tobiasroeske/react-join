@@ -1,12 +1,12 @@
-import PageLayout from "../shared/components/pageLayout";
-import Help from "./helpComponent";
+import PageLayout from '../shared/components/pageLayout'
+import Help from './helpComponent'
 
 function HelpPage() {
-    return ( 
-        <>
-            <PageLayout onContactPage={true} Component={Help}/>
-        </>
-     );
+  return (
+    <>
+      <PageLayout onContactPage={true} Component={Help} />
+    </>
+  )
 }
 
-export default HelpPage;
+export default HelpPage

@@ -1,25 +1,25 @@
-import AddTaskForm from "./addTaskFormComponent";
-import styles from '../addTaskPage.module.css';
-import TaskCreated from "./taskCreated";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import AddTaskForm from './addTaskFormComponent'
+import styles from '../addTaskPage.module.css'
+import TaskCreated from './taskCreated'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function AddTask() {
-    const [taskCreated, setTaskCreated] = useState<boolean>(false);
-    const navigate = useNavigate();
+  const [taskCreated, setTaskCreated] = useState<boolean>(false)
+  const navigate = useNavigate()
 
-    function handleSubmit() {
-        setTaskCreated(true);
-        setTimeout(() => navigate('/board'), 1500);
-    }
+  function handleSubmit() {
+    setTaskCreated(true)
+    setTimeout(() => navigate('/board'), 1500)
+  }
 
-    return (
-        <div className={styles.addTaskContent}>
-            <h1 className={styles.headline}>Add Task</h1>
-            <AddTaskForm handleSubmitActions={handleSubmit} state={'to-do'} />
-            <TaskCreated taskCreated={taskCreated} />
-        </div>
-    );
+  return (
+    <div className={styles.addTaskContent}>
+      <h1 className={styles.headline}>Add Task</h1>
+      <AddTaskForm handleSubmitActions={handleSubmit} state={'to-do'} />
+      <TaskCreated taskCreated={taskCreated} />
+    </div>
+  )
 }
 
-export default AddTask;
+export default AddTask

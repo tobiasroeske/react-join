@@ -1,23 +1,22 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import LoginPage from "./loginPage/loginPage"
-import SummaryPage from './summaryPage/summaryPage';
-import BoardPage from './boardPage/boardPage';
-import AddTaskPage from './addTaskPage/addTaskPagae';
-import ContactsPage from './contactsPage/contactsPage';
-import RegisterPage from './registerPage/registerPage';
-import ErrorPage from './errorPage/errorPage';
-import AuthProvider from './shared/authProvider';
-import FirestoreProvider from './shared/firestoreProvider';
-import LegalNotice from './legalNoticePage/legalNoticePage';
-import PrivacyPolicy from './privacyPolicyPage/privacyPolicyPage';
-import useOrientation from './shared/hooks/useOrientation';
-import HelpPage from './helpPage/helpPage';
-
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import LoginPage from './loginPage/loginPage'
+import SummaryPage from './summaryPage/summaryPage'
+import BoardPage from './boardPage/boardPage'
+import AddTaskPage from './addTaskPage/addTaskPagae'
+import ContactsPage from './contactsPage/contactsPage'
+import RegisterPage from './registerPage/registerPage'
+import ErrorPage from './errorPage/errorPage'
+import AuthProvider from './shared/authProvider'
+import FirestoreProvider from './shared/firestoreProvider'
+import LegalNotice from './legalNoticePage/legalNoticePage'
+import PrivacyPolicy from './privacyPolicyPage/privacyPolicyPage'
+import useOrientation from './shared/hooks/useOrientation'
+import HelpPage from './helpPage/helpPage'
 
 function App() {
-  const { isPortrait } = useOrientation();
+  const { isPortrait } = useOrientation()
 
-  const isMobile = window.innerWidth < 950;
+  const isMobile = window.innerWidth < 950
 
   // if (!isPortrait && isMobile) {
   //   return (
@@ -38,7 +37,7 @@ function App() {
     { path: 'legal-notice', element: <LegalNotice /> },
     { path: 'privacy-policy', element: <PrivacyPolicy /> },
     { path: 'help', element: <HelpPage /> }
-  ]);
+  ])
 
   return (
     <FirestoreProvider>
@@ -46,7 +45,7 @@ function App() {
         <RouterProvider router={router} />
       </AuthProvider>
     </FirestoreProvider>
-  );
+  )
 }
 
-export default App;
+export default App

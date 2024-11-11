@@ -1,17 +1,13 @@
-
-
-import '../index.css';
-import PageLayout from '../shared/components/pageLayout';
-import Summary from './components/summaryComponent';
-
+import '../index.css'
+import PageLayout from '../shared/components/pageLayout'
+import Summary from './components/summaryComponent'
 
 function SummaryPage() {
-    return (
-        <>
-            <PageLayout Component={Summary} onContactPage={false} />
-        </>
-
-    );
+  return (
+    <>
+      <PageLayout Component={Summary} onContactPage={false} />
+    </>
+  )
 }
 
-export default SummaryPage;
+export default SummaryPage
