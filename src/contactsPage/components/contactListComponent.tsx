@@ -9,11 +9,22 @@ type ContactListProps = {
   showContact: () => void
 }
 
+/**
+ * ContactList component.
+ *
+ * @param {ContactListProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered component.
+ */
 function ContactList({ onContactSelect, showContact }: ContactListProps) {
   const [initials, setInitials] = useState<string[]>([])
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
   const contacts = useContacts()
 
+  /**
+   * Effect to extract unique initials from the contacts list.
+   *
+   * Updates the state variable `initials` with the unique initials.
+   */
   useEffect(() => {
     const uniqueInitials = Array.from(
       new Set(contacts.map((contact) => contact.name.charAt(0).toUpperCase()))
@@ -21,6 +32,11 @@ function ContactList({ onContactSelect, showContact }: ContactListProps) {
     setInitials(uniqueInitials)
   }, [contacts])
 
+  /**
+   * Handles the selection of a contact.
+   *
+   * @param {Contact} contact - The selected contact.
+   */
   const handleContactSelect = (contact: Contact) => {
     setSelectedContact(contact)
     onContactSelect(contact)

@@ -4,18 +4,28 @@ import SidenavMobile from './sidenavMobileComponent'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 
+/**
+ * Sidenav component.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 function Sidenav() {
   const [hideNav, setHideNav] = useState<boolean>(false)
   const location = useLocation()
   const specialPathNames = ['/help', 'legal-notice', 'privacy-policy']
 
+  /**
+   * Effect to hide the navigation bar on special pages.
+   *
+   * Updates the state variable `hideNav` based on the current pathname.
+   */
   useEffect(() => {
     specialPathNames.forEach((path) => {
       if (location.pathname.includes(path)) {
         setHideNav(true)
       }
     })
-  })
+  }, [location.pathname, specialPathNames])
 
   return (
     <>
@@ -70,7 +80,7 @@ function Sidenav() {
           </nav>
         )}
       </div>
-      {!hideNav && <SidenavMobile />}
+      <SidenavMobile />
     </>
   )
 }

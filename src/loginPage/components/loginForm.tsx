@@ -11,6 +11,11 @@ type FormFields = {
   password: string
 }
 
+/**
+ * LoginForm component.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 export default function LoginForm() {
   const authContext = useAuthContext()
   const { loginUser } = authContext
@@ -19,6 +24,9 @@ export default function LoginForm() {
   const [rememberMe, setRememberMe] = useState<boolean>(false)
   const navigate = useNavigate()
 
+  /**
+   * Effect to load stored credentials if "Remember Me" is checked.
+   */
   useEffect(() => {
     const storedRememberMe = localStorage.getItem('rememberMe') === 'true'
     setRememberMe(storedRememberMe)
@@ -30,6 +38,11 @@ export default function LoginForm() {
     }
   }, [setValue])
 
+  /**
+   * Handles the form submission to log in a user.
+   *
+   * @param {FormFields} data - The form data.
+   */
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
       await loginUser(data.email, data.password)
@@ -57,8 +70,19 @@ export default function LoginForm() {
     }
   }
 
-  function handleCheckboxChange(e: ChangeEvent<HTMLInputElement>) {
-    setRememberMe(e.target.checked)
+  /**
+   * Handles changes to the "Remember Me" checkbox.
+   *
+   * @param {ChangeEvent<HTMLInputElement>} event - The change event.
+   */
+  const handleRememberMeChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked
+    setRememberMe(isChecked)
+    localStorage.setItem('rememberMe', isChecked.toString())
+    if (!isChecked) {
+      localStorage.removeItem('email')
+      localStorage.removeItem('password')
+    }
   }
 
   function handleError(error: unknown) {
@@ -78,41 +102,26 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <div className="inputContainer">
-        <label htmlFor="email" />
-        <input
-          {...register('email')}
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Email"
-        />
-        <img src="/assets/icons/mail.png" alt="" />
+      <div className={styles.inputGroup}>
+        <label htmlFor="email">Email</label>
+        <input id="email" type="email" {...register('email')} />
       </div>
-      <div className="inputContainer">
-        <label htmlFor="passwordInput" />
-        <input
-          {...register('password')}
-          type="password"
-          id="passwordInput"
-          name="password"
-          placeholder="Password"
-        />
-        <img src="/assets/icons/lock.png" alt="" />
-        {errorMessage && (
-          <span className="error-message">Email or password do not match</span>
-        )}
+      <div className={styles.inputGroup}>
+        <label htmlFor="password">Password</label>
+        <input id="password" type="password" {...register('password')} />
       </div>
-      <div className="checkboxContainer">
+      <div className={styles.rememberMe}>
         <input
           type="checkbox"
-          id="checkboxInput"
-          name="checkboxInput"
+          id="rememberMe"
           checked={rememberMe}
-          onChange={handleCheckboxChange}
+          onChange={handleRememberMeChange}
         />
-        <label htmlFor="checkboxInput">Remember Me</label>
+        <label htmlFor="rememberMe">Remember Me</label>
       </div>
+      {errorMessage && (
+        <p className={styles.error}>Invalid email or password</p>
+      )}
       <div className={styles.actionContainer}>
         <SubmitBtn text={'Log in'} disabled={false} />
         <div className={styles.guestLoginBtn} onClick={guestLogin}>

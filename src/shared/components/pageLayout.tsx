@@ -10,12 +10,23 @@ type PageLayoutProps = {
   onContactPage: boolean
 }
 
+/**
+ * PageLayout component.
+ *
+ * @param {PageLayoutProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered component.
+ */
 function PageLayout({ Component, onContactPage }: PageLayoutProps) {
   const authContext = useAuthContext()
   const location = useLocation()
   const { loading, user } = authContext
   const [onSpecialPage, setOnSpecialPage] = useState<boolean>(false)
 
+  /**
+   * Effect to determine if the current page is a special page.
+   *
+   * Updates the state variable `onSpecialPage` based on the current pathname.
+   */
   useEffect(() => {
     const specialPathNames = ['/help', 'legal-notice', 'privacy-policy']
     const isSpecialPage = specialPathNames.some((path) =>
@@ -33,30 +44,15 @@ function PageLayout({ Component, onContactPage }: PageLayoutProps) {
         </Link>
       </div>
     )
-  } else {
-    return (
-      <div className="main-page">
-        <Sidenav />
-        <div className="content-complete">
-          <Header />
-          <div
-            data-testid="main-container"
-            className={onContactPage ? 'contactPageContainer' : 'main-content'}
-          >
-            {!onSpecialPage ? (
-              loading ? (
-                <LoadingSpinner />
-              ) : (
-                <Component />
-              )
-            ) : (
-              <Component />
-            )}
-          </div>
-        </div>
-      </div>
-    )
   }
+
+  return (
+    <div className="page-layout">
+      <Header />
+      <Sidenav />
+      <main>{loading ? <LoadingSpinner /> : <Component />}</main>
+    </div>
+  )
 }
 
 export default PageLayout

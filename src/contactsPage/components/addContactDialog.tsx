@@ -30,6 +30,12 @@ type AddContactDialogProps = {
   creationSuccessful: () => void
 }
 
+/**
+ * AddContactDialog component.
+ *
+ * @param {AddContactDialogProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered component.
+ */
 function AddContactDialog({
   onShowPopup,
   onContactCreation,
@@ -37,10 +43,16 @@ function AddContactDialog({
 }: AddContactDialogProps) {
   const [formVisible, setFormVisible] = useState<boolean>(false)
 
+  /**
+   * Effect to show the form when the component mounts.
+   */
   useEffect(() => {
     setFormVisible(true)
   }, [])
 
+  /**
+   * Handles closing the dialog.
+   */
   const handleClose = () => {
     setFormVisible(false)
     setTimeout(onShowPopup, TRANSITION_DELAY)

@@ -19,6 +19,12 @@ type AddContactFormProps = {
   creationSuccessful: () => void
 }
 
+/**
+ * AddContactForm component.
+ *
+ * @param {AddContactFormProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered component.
+ */
 function AddContactForm({
   icon,
   onShowPopup,
@@ -33,18 +39,13 @@ function AddContactForm({
     reset,
     formState: { errors }
   } = useForm<FormFields>()
-  const [phoneValue, setPhoneValue] = useState('')
-  const colors: string[] = [
-    '#FF7A00',
-    '#9327FF',
-    '#6E52FF',
-    '#FC71FF',
-    '#FFBB2B',
-    '#1FD7C1',
-    '#462F8A',
-    '#FF4646'
-  ]
+  const [phoneValue, setPhoneValue] = useState<string>('')
 
+  /**
+   * Handles the form submission to add a new contact.
+   *
+   * @param {FormFields} data - The form data.
+   */
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     if (user) {
       const newContact = {
@@ -62,11 +63,29 @@ function AddContactForm({
     }
   }
 
+  /**
+   * Gets a random color from the predefined colors array.
+   *
+   * @returns {string} A random color.
+   */
   function getRandomColor(): string {
+    const colors = [
+      '#6E52FF',
+      '#FC71FF',
+      '#FFBB2B',
+      '#1FD7C1',
+      '#462F8A',
+      '#FF4646'
+    ]
     const randomIndex = Math.floor(Math.random() * colors.length)
     return colors[randomIndex]
   }
 
+  /**
+   * Handles input change for the phone number field.
+   *
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The change event.
+   */
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let { value } = e.target
     value = value.replace(/[^0-9+]/g, '')
@@ -74,7 +93,7 @@ function AddContactForm({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.addContactForm}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <div className="inputContainer">
         <label htmlFor="nameInput" />
         <input

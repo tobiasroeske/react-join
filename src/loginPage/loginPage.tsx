@@ -7,13 +7,24 @@ import Intro from './components/intro'
 import { useEffect, useState } from 'react'
 import SignUpContainer from './components/signUpContainerComponent'
 
+/**
+ * LoginPage component.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 function LoginPage() {
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false)
 
+  /**
+   * Handles window resize events to determine if the screen is small.
+   */
   function handleResize() {
     window.innerWidth <= 950 ? setIsSmallScreen(true) : setIsSmallScreen(false)
   }
 
+  /**
+   * Effect to set up and clean up the resize event listener.
+   */
   useEffect(() => {
     handleResize()
     window.addEventListener('resize', handleResize)

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import {
   addDoc,
   collection,
@@ -36,15 +37,41 @@ export function useFirestoreContext() {
   return firestoreContext
 }
 
+/**
+ * FirestoreProvider component.
+ *
+ * @param {FirestoreProdiverProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered component.
+ */
 function FirestoreProvider({ children }: FirestoreProdiverProps) {
+  /**
+   * Gets a reference to a Firestore collection.
+   *
+   * @param {string} colName - The name of the collection.
+   * @returns {CollectionReference} The collection reference.
+   */
   function getRef(colName: string) {
     return collection(firestore, colName)
   }
 
-  function getDocRef(colNane: string, docId: string) {
-    return doc(getRef(colNane), docId)
+  /**
+   * Gets a reference to a Firestore document.
+   *
+   * @param {string} colName - The name of the collection.
+   * @param {string} docId - The ID of the document.
+   * @returns {DocumentReference} The document reference.
+   */
+  function getDocRef(colName: string, docId: string) {
+    return doc(getRef(colName), docId)
   }
 
+  /**
+   * Adds a user to the Firestore database.
+   *
+   * @param {string} userId - The ID of the user.
+   * @param {UserCredential} userCred - The user credentials.
+   * @returns {Promise<void>} A promise that resolves when the user is added.
+   */
   async function addUser(userId: string, userCred: UserCredential) {
     try {
       await setDoc(getDocRef('users', userId), {
@@ -57,6 +84,12 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
     }
   }
 
+  /**
+   * Adds a contact to the Firestore database.
+   *
+   * @param {Contact} newContact - The contact object to add.
+   * @returns {Promise<void>} A promise that resolves when the contact is added.
+   */
   async function addContact(newContact: Contact) {
     try {
       const response = await addDoc(getRef('contacts'), { ...newContact })
@@ -66,6 +99,12 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
     }
   }
 
+  /**
+   * Adds a task to the Firestore database.
+   *
+   * @param {Task} newTask - The task object to add.
+   * @returns {Promise<void>} A promise that resolves when the task is added.
+   */
   async function addTask(newTask: Task) {
     try {
       const response = await addDoc(getRef('tasks'), { ...newTask })
@@ -75,6 +114,12 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
     }
   }
 
+  /**
+   * Edits a contact in the Firestore database.
+   *
+   * @param {Contact} editedContact - The contact object with updated information.
+   * @returns {Promise<void>} A promise that resolves when the contact is updated.
+   */
   async function editContact(editedContact: Contact) {
     try {
       await updateDoc(getDocRef('contacts', editedContact.id), {
@@ -85,6 +130,12 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
     }
   }
 
+  /**
+   * Deletes a contact from the Firestore database.
+   *
+   * @param {string} contactId - The ID of the contact to delete.
+   * @returns {Promise<void>} A promise that resolves when the contact is deleted.
+   */
   async function deleteContact(contactId: string) {
     try {
       await deleteDoc(getDocRef('contacts', contactId))
@@ -93,6 +144,12 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
     }
   }
 
+  /**
+   * Deletes a task from the Firestore database.
+   *
+   * @param {string} taskId - The ID of the task to delete.
+   * @returns {Promise<void>} A promise that resolves when the task is deleted.
+   */
   async function deleteTask(taskId: string) {
     try {
       await deleteDoc(getDocRef('tasks', taskId))
@@ -101,6 +158,13 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
     }
   }
 
+  /**
+   * Updates a task in the Firestore database.
+   *
+   * @param {string} taskId - The ID of the task to update.
+   * @param {Task} updatedTask - The task object with updated information.
+   * @returns {Promise<void>} A promise that resolves when the task is updated.
+   */
   async function updateTask(taskId: string, updatedTask: Task) {
     try {
       await updateDoc(getDocRef('tasks', taskId), { ...updatedTask })
@@ -109,6 +173,13 @@ function FirestoreProvider({ children }: FirestoreProdiverProps) {
     }
   }
 
+  /**
+   * Updates a user in the Firestore database.
+   *
+   * @param {string} userId - The ID of the user to update.
+   * @param {Object} user - The user object with updated information.
+   * @returns {Promise<void>} A promise that resolves when the user is updated.
+   */
   async function updateUser(userId: string, user: {}) {
     const userRef = getDocRef('users', userId)
     const userToAdd = setUserObject(user, userId)

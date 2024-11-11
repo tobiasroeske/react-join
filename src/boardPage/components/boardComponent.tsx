@@ -1,12 +1,12 @@
-import { useCallback, useState } from 'react'
+import React, { useState, useCallback } from 'react'
+import { Task } from '../../shared/interfaces/task.interface'
+import useTasks from '../../shared/hooks/useTasks'
+import styles from './boardComponent.module.css'
 import Headline from './headlineComponent'
-import styles from '../boardPage.module.css'
 import Popup from './popupComponent'
 import AddTaskForm from '../../addTaskPage/components/addTaskFormComponent'
 import TaskColumn from './taskColumnComponent'
 import TaskDetailView from './taskDetailViewComponent'
-import { Task } from '../../shared/interfaces/task.interface'
-import useTasks from '../../shared/hooks/useTasks'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { DndProvider } from 'react-dnd'
@@ -16,7 +16,12 @@ function isTouchDevice() {
   return 'ontouchstart' in window || navigator.maxTouchPoints > 0
 }
 
-function Board() {
+/**
+ * BoardComponent component.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
+function BoardComponent() {
   const { updateTask } = useFirestoreContext()
   const [popupState, setPopupState] = useState<string>('to-do')
   const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false)
@@ -25,28 +30,52 @@ function Board() {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
   const [tasks, setTasks] = useState<Task[]>(useTasks())
 
+  /**
+   * Handles the state change of the popup.
+   *
+   * @param {string} state - The new state of the popup.
+   */
   function handlePopupStateChange(state: string) {
     setPopupState(state)
     togglePopupVisibility()
   }
 
+  /**
+   * Handles the search result and updates the tasks.
+   *
+   * @param {Task[]} tasks - The search result tasks.
+   */
   const handleSearchResult = useCallback((tasks: Task[]) => {
     setTasks(tasks)
   }, [])
 
+  /**
+   * Toggles the visibility of the popup.
+   */
   function togglePopupVisibility() {
     setIsPopupVisible((prev) => !prev)
   }
 
+  /**
+   * Handles the selection of a task.
+   *
+   * @param {Task} task - The selected task.
+   */
   function handleTaskSelection(task: Task) {
     setSelectedTask(task)
     toggleTaskDetailPreview()
   }
 
+  /**
+   * Toggles the visibility of the task detail preview.
+   */
   function toggleTaskDetailPreview() {
     setIsTaskDetailVisible((prev) => !prev)
   }
 
+  /**
+   * Handles the creation of a task.
+   */
   function handleTaskCreation() {
     setIsTaskCreated(true)
     setTimeout(() => {
@@ -117,4 +146,4 @@ function Board() {
   )
 }
 
-export default Board
+export default BoardComponent

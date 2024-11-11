@@ -16,6 +16,11 @@ type FormFields = {
   checkboxInput: boolean
 }
 
+/**
+ * RegisterForm component.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 export function RegisterForm({ isSuccessful, onShow }: registerProps) {
   const authContext = useAuthContext()
   const { createUser } = authContext
@@ -30,6 +35,11 @@ export function RegisterForm({ isSuccessful, onShow }: registerProps) {
   const navigate = useNavigate()
   const password = watch('password', '')
 
+  /**
+   * Handles the form submission to register a new user.
+   *
+   * @param {FormFields} data - The form data.
+   */
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
       const userCredentials = await createUser(data.email, data.password)
@@ -47,6 +57,12 @@ export function RegisterForm({ isSuccessful, onShow }: registerProps) {
     }
   }
 
+  /**
+   * Creates a user contact in the Firestore database.
+   *
+   * @param {FormFields} data - The form data.
+   * @param {string} uid - The user ID.
+   */
   async function createUserContact(data: FormFields, uid: string) {
     const userContact = {
       name: data.name,
@@ -58,6 +74,9 @@ export function RegisterForm({ isSuccessful, onShow }: registerProps) {
     await addContact(userContact)
   }
 
+  /**
+   * Redirects the user to the login page after a short delay.
+   */
   function pipeToLogin() {
     onShow()
     setTimeout(() => navigate('/login'), 1500)

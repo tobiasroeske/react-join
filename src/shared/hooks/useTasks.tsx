@@ -4,10 +4,21 @@ import { useAuthContext } from '../authProvider'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import { firestore } from '../../firebaseConfig'
 
+/**
+ * Custom hook to fetch tasks from Firestore for the authenticated user.
+ *
+ * @returns {Task[]} The list of tasks for the authenticated user.
+ */
 function useTasks() {
   const [tasks, setTasks] = useState<Task[]>([])
   const { user, loading } = useAuthContext()
 
+  /**
+   * Effect to fetch tasks from Firestore when the user is authenticated.
+   *
+   * Sets up a Firestore query to listen for changes to the tasks collection
+   * and updates the state with the fetched tasks.
+   */
   useEffect(() => {
     if (!loading && user) {
       const q = query(

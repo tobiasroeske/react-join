@@ -1,3 +1,9 @@
+/**
+ * Gets the initials from a given name.
+ *
+ * @param {string | null} name - The name to get initials from.
+ * @returns {string} The initials of the name.
+ */
 export default function getInitials(name: string | null): string {
   if (!name) return ''
   const names = name.split(' ')

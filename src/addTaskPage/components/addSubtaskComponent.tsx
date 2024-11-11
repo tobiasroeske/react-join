@@ -1,11 +1,6 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import styles from '../addTaskPage.module.css'
-
-type AddSubtaskProps = {
-  subtasks: Subtask[]
-  setSubtasks: (subtasks: Subtask[]) => void
-}
+import styles from './addSubtaskComponent.module.css'
 
 type Subtask = {
   id: string
@@ -13,11 +8,97 @@ type Subtask = {
   completed: boolean
 }
 
+type AddSubtaskProps = {
+  subtasks: Subtask[]
+  setSubtasks: (subtasks: Subtask[]) => void
+}
+
+/**
+ * AddSubtask component.
+ *
+ * @param {AddSubtaskProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered component.
+ */
 function AddSubtask({ subtasks, setSubtasks }: AddSubtaskProps) {
   const [inputValue, setInputValue] = useState<string>('')
   const [editSubtaskValue, setEditSubtaskValue] = useState<string>('')
-  const [inputSelected, setInputSelected] = useState<boolean>(false)
   const [editingSubtaskId, setEditingSubtaskId] = useState<string | null>(null)
+  const [inputSelected, setInputSelected] = useState<boolean>(false)
+
+  /**
+   * Handles the form submission to add a new subtask.
+   *
+   * @param {React.FormEvent<HTMLFormElement>} event - The form submission event.
+   */
+  function handleAddSubtask(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    addSubtask()
+  }
+
+  /**
+   * Adds a new subtask to the list.
+   */
+  function addSubtask() {
+    if (inputValue.trim() === '') return
+    const newSubtask = {
+      id: uuidv4(),
+      title: inputValue.trim(),
+      completed: false
+    }
+    setSubtasks([...subtasks, newSubtask])
+    setInputValue('')
+  }
+
+  /**
+   * Handles the edit of a subtask.
+   *
+   * @param {string} id - The ID of the subtask to edit.
+   */
+  function handleEditSubtask(id: string) {
+    setEditingSubtaskId(id)
+    const subtask = subtasks.find((subtask) => subtask.id === id)
+    if (subtask) {
+      setEditSubtaskValue(subtask.title)
+    }
+  }
+
+  /**
+   * Handles input change for the subtask.
+   *
+   * @param {React.ChangeEvent<HTMLInputElement>} event - The change event.
+   */
+  function handleSubtaskInput(event: React.ChangeEvent<HTMLInputElement>) {
+    setEditSubtaskValue(event.target.value)
+  }
+
+  /**
+   * Handles saving the edited subtask.
+   *
+   * @param {string} id - The ID of the subtask to save.
+   */
+  function handleSaveEdit(id: string) {
+    const updatedSubtasks = subtasks.map((subtask) =>
+      subtask.id === id
+        ? { ...subtask, title: editSubtaskValue.trim() }
+        : subtask
+    )
+    setSubtasks(updatedSubtasks)
+    setEditingSubtaskId(null)
+    setEditSubtaskValue('')
+  }
+
+  /**
+   * Handles deleting a subtask.
+   *
+   * @param {string} id - The ID of the subtask to delete.
+   */
+  function handleDeleteSubtask(id: string) {
+    const updatedSubtasks = subtasks.filter((subtask) => subtask.id !== id)
+    setSubtasks(updatedSubtasks)
+    setEditingSubtaskId(null)
+    setEditSubtaskValue('')
+    setInputValue('')
+  }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setInputValue(event.target.value)
@@ -34,55 +115,12 @@ function AddSubtask({ subtasks, setSubtasks }: AddSubtaskProps) {
     }
   }
 
-  function handleEditSubtask(id: string) {
-    setEditingSubtaskId(id)
-    const subtask = subtasks.find((subtask) => subtask.id === id)
-    if (subtask) {
-      setEditSubtaskValue(subtask.title)
-    }
-  }
-
-  function handleSubtaskInput(event: React.ChangeEvent<HTMLInputElement>) {
-    setEditSubtaskValue(event.target.value)
-  }
-
-  function handleSaveEdit(id: string) {
-    const updatedSubtasks = subtasks.map((subtask) =>
-      subtask.id === id
-        ? { ...subtask, title: editSubtaskValue.trim() }
-        : subtask
-    )
-    setSubtasks(updatedSubtasks)
-    setEditingSubtaskId(null)
-    setEditSubtaskValue('')
-  }
-
-  function handleDeleteSubtask(id: string) {
-    const updatedSubtasks = subtasks.filter((subtask) => subtask.id !== id)
-    setSubtasks(updatedSubtasks)
-    setEditingSubtaskId(null)
-    setEditSubtaskValue('')
-    setInputValue('')
-  }
-
-  function addSubtask() {
-    if (inputValue.trim()) {
-      const newSubtask: Subtask = {
-        id: uuidv4(),
-        title: inputValue.trim(),
-        completed: false
-      }
-      setSubtasks([...subtasks, newSubtask])
-      resetInput()
-    }
-  }
-
   useEffect(() => {
     setInputSelected(inputValue.length > 0)
   }, [inputValue])
 
   return (
-    <>
+    <div className={styles.addSubtask}>
       <div className="inputContainer">
         <label htmlFor="subtask" className={styles.label}>
           Subtasks
@@ -179,7 +217,7 @@ function AddSubtask({ subtasks, setSubtasks }: AddSubtaskProps) {
           </ul>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

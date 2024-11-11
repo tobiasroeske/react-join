@@ -30,6 +30,12 @@ type EditContactFormProps = {
   onContactEdit: (contact: Contact | null) => void
 }
 
+/**
+ * EditContactComponent component.
+ *
+ * @param {EditContactFormProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered component.
+ */
 function EditContactComponent({
   onShowPopup,
   selectedContact,
@@ -37,10 +43,16 @@ function EditContactComponent({
 }: EditContactFormProps) {
   const [formVisible, setFormVisible] = useState<boolean>(false)
 
+  /**
+   * Effect to show the form when the component mounts.
+   */
   useEffect(() => {
     setFormVisible(true)
   }, [])
 
+  /**
+   * Handles closing the dialog.
+   */
   const handleClose = () => {
     setFormVisible(false)
     setTimeout(onShowPopup, TRANSITION_DELAY)
@@ -63,21 +75,15 @@ function EditContactComponent({
         </div>
       </div>
       <div className={styles.rightside}>
-        <div
-          className={styles.imgContainer}
-          style={{ backgroundColor: selectedContact?.color }}
-        >
+        <div className={styles.imgContainer}>
           <img src="/assets/icons/person_contacts.png" alt="" />
         </div>
 
         <EditContactForm
           selectedContact={selectedContact}
-          onShowPopup={handleClose}
           onContactEdit={onContactEdit}
+          onShowPopup={onShowPopup}
         />
-        <div className={styles.cancelIcon} onClick={handleClose}>
-          {cancelSvg}
-        </div>
       </div>
     </div>
   )

@@ -1,3 +1,9 @@
+/**
+ * Formats a timestamp into a date string in the format "Month Day, Year".
+ *
+ * @param {number} timestamp - The timestamp to format.
+ * @returns {string} The formatted date string.
+ */
 function formatDateInText(timestamp: number): string {
   const date = new Date(timestamp)
   const monthNames = [

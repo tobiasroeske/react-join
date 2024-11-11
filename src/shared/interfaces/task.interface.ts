@@ -1,6 +1,6 @@
 import { Contact } from './contact.interface'
 
-type Subtask = {
+export type Subtask = {
   id: string
   title: string
   completed: boolean

@@ -1,18 +1,13 @@
-import { SubmitHandler, useForm } from 'react-hook-form'
+import React, { useEffect, useState } from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import { Task } from '../../shared/interfaces/task.interface'
-import styles from '../boardPage.module.css'
-import PrioButton from '../../addTaskPage/components/prioButtonComponent'
-import { useEffect, useState } from 'react'
-import AddContactSelect from '../../addTaskPage/components/addContactSelectComponent'
 import { Contact } from '../../shared/interfaces/contact.interface'
+import { useFirestoreContext } from '../../shared/firestoreProvider'
+import styles from './taskEditor.module.css'
+import PrioButton from '../../addTaskPage/components/prioButtonComponent'
+import AddContactSelect from '../../addTaskPage/components/addContactSelectComponent'
 import AddSubtask from '../../addTaskPage/components/addSubtaskComponent'
 import classNames from 'classnames'
-import { useFirestoreContext } from '../../shared/firestoreProvider'
-
-type TaskEditorProps = {
-  task: Task
-  handleUpdate: (newTask: Task) => void
-}
 
 type FormFields = {
   title: string
@@ -26,6 +21,17 @@ type Subtask = {
   completed: boolean
 }
 
+type TaskEditorProps = {
+  task: Task
+  handleUpdate: (task: Task) => void
+}
+
+/**
+ * TaskEditor component.
+ *
+ * @param {TaskEditorProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered component.
+ */
 function TaskEditor({ task, handleUpdate }: TaskEditorProps) {
   const {
     register,
@@ -42,6 +48,9 @@ function TaskEditor({ task, handleUpdate }: TaskEditorProps) {
   const [subtasks, setSubtasks] = useState<Subtask[]>(task.subtasks)
   const today = new Date().toISOString().split('T')[0]
 
+  /**
+   * Effect to set the form values when the task changes.
+   */
   useEffect(() => {
     if (task) {
       setValue('title', task.title)
@@ -50,6 +59,11 @@ function TaskEditor({ task, handleUpdate }: TaskEditorProps) {
     }
   }, [task, setValue])
 
+  /**
+   * Handles the form submission to update a task.
+   *
+   * @param {FormFields} data - The form data.
+   */
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     if (task) {
       const updatedTask = getUpdatedTaskObject(data)
@@ -58,7 +72,13 @@ function TaskEditor({ task, handleUpdate }: TaskEditorProps) {
     }
   }
 
-  function getUpdatedTaskObject(data: FormFields) {
+  /**
+   * Gets the updated task object based on the form data.
+   *
+   * @param {FormFields} data - The form data.
+   * @returns {Task} The updated task object.
+   */
+  function getUpdatedTaskObject(data: FormFields): Task {
     return {
       ...task,
       title: data.title,
@@ -70,10 +90,21 @@ function TaskEditor({ task, handleUpdate }: TaskEditorProps) {
     }
   }
 
+  /**
+   * Selects the priority for the task.
+   *
+   * @param {string} prio - The priority to select.
+   */
   function selectPriority(prio: string) {
     setPriority(prio)
   }
 
+  /**
+   * Handles the selection of a contact.
+   *
+   * @param {Contact} selectedContact - The selected contact.
+   * @param {React.MouseEvent} e - The mouse event.
+   */
   function handleContactSelect(selectedContact: Contact, e: React.MouseEvent) {
     e.stopPropagation()
     setSelectedContacts((prevContacts) => {

@@ -59,6 +59,9 @@ function Summary() {
   const closestDueDate = useClosestDueDate(tasks)
   const greetingMessage = useGreetingMessage()
 
+  /**
+   * Shows the greeting message for a short duration.
+   */
   function showGreetingMessage() {
     if (window.innerWidth <= 1150) {
       setShowGreeting(true)
@@ -66,6 +69,11 @@ function Summary() {
     }
   }
 
+  /**
+   * Effect to filter tasks based on their state and priority.
+   *
+   * Updates the state variables for different task categories.
+   */
   useEffect(() => {
     const todos = tasks.filter((task) => task.state === 'to-do')
     const inProgress = tasks.filter((task) => task.state === 'in-progress')

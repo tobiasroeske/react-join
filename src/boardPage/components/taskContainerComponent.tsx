@@ -12,6 +12,12 @@ type TaskContainerProps = {
   setTaskIndex: () => void
 }
 
+/**
+ * TaskContainer component.
+ *
+ * @param {TaskContainerProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered component.
+ */
 function TaskContainer({ task, setTaskIndex }: TaskContainerProps) {
   const [showContacts, setShowContacts] = useState<boolean>(false)
 
@@ -23,10 +29,18 @@ function TaskContainer({ task, setTaskIndex }: TaskContainerProps) {
     })
   })
 
+  /**
+   * Toggles the visibility of the extra contact popup.
+   */
   function toggleExtraContactPopup() {
     setShowContacts(!showContacts)
   }
 
+  /**
+   * Gets the number of completed subtasks.
+   *
+   * @returns {number} The number of completed subtasks.
+   */
   function getCompleteSubtaskAmount() {
     const completeSubtasks = task.subtasks.filter(
       (subtask) => subtask.completed
@@ -36,10 +50,10 @@ function TaskContainer({ task, setTaskIndex }: TaskContainerProps) {
 
   return (
     <div
-      className={styles.task}
-      onClick={setTaskIndex}
+      className={classNames(styles.taskContainer, {
+        [styles.dragging]: isDragging
+      })}
       ref={drag}
-      style={isDragging ? { transform: 'rotate(-8deg)' } : {}}
     >
       <div
         className={styles.category}
